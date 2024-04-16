@@ -1,45 +1,47 @@
 LayerViews:
-  Waveguide:
-    layer: [1, 0]
-    layer_in_name: true
-    width: 1
-    color: "#ff9d9d"
-    hatch_pattern: dotted
-  Waveguide2:
-    layer: [31, 0]
-    layer_in_name: true
-    width: 1
-    color: "#ff9d9d"
-    hatch_pattern: dotted
-  SLAB150:
-    layer: [2, 0]
-    layer_in_name: true
-    transparent: true
-    width: 1
-    color: "cyan"
-    hatch_pattern: coarsely dotted
-  M1_HEATER:
-    layer: [11, 0]
-    layer_in_name: true
-    color: "#ebc634"
-    hatch_pattern: hollow
-  M2_ROUTER:
-    layer: [12, 0]
-    layer_in_name: true
-    frame_color: "teal"
-    fill_color: "#800057"
-    hatch_pattern: dotted
-  M_Open:
-    layer: [13, 0]
-    layer_in_name: true
-    color: "black"
-    hatch_pattern: hollow
-  MH:
-    layer: [47, 0]
-    layer_in_name: true
-    transparent: true
-    width: 1
-    color: "#ff8000"
+  Silicon:
+    Waveguide:
+      layer: [1, 0]
+      layer_in_name: true
+      width: 1
+      color: "#ff9d9d"
+      hatch_pattern: dotted
+    Waveguide2:
+      layer: [31, 0]
+      layer_in_name: true
+      width: 1
+      color: "#ff9d9d"
+      hatch_pattern: dotted
+    SLAB150:
+      layer: [2, 0]
+      layer_in_name: true
+      transparent: true
+      width: 1
+      color: "cyan"
+      hatch_pattern: coarsely dotted
+  METAL:
+    M1_HEATER:
+      layer: [11, 0]
+      layer_in_name: true
+      color: "#ebc634"
+      hatch_pattern: hollow
+    M2_ROUTER:
+      layer: [12, 0]
+      layer_in_name: true
+      frame_color: "teal"
+      fill_color: "#800057"
+      hatch_pattern: dotted
+    M_Open:
+      layer: [13, 0]
+      layer_in_name: true
+      color: "black"
+      hatch_pattern: hollow
+    MH:
+      layer: [47, 0]
+      layer_in_name: true
+      transparent: true
+      width: 1
+      color: "#ff8000"
   DEEPTRENCH:
     layer: [4, 0]
     layer_in_name: true
