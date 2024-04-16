@@ -5,7 +5,7 @@ LayerViews:
         layer: [1, 0]
         layer_in_name: true
         width: 1
-        color: "#ff9d9d"
+        color: "#d12b31"
         hatch_pattern: dotted
       Waveguide_keepout:
         layer: [1,2]
@@ -86,9 +86,64 @@ LayerViews:
     layer_in_name: true
     width: 1
     color: "black"
-  TEXT:
-    layer: [10, 0]
-    layer_in_name: true
+  SiEPIC:
+    group_members:
+      DevRec:
+        layer: [68, 0]
+        visible: true
+        transparent: true
+        width: 1
+        color: "#004080"
+        hatch_pattern: hollow
+      PinRec:
+        layer: [1, 10]
+        color: "#404040"
+      PinRecM:
+        layer: [1, 11]
+        width: 1
+        color: "#004080"
+      FbrTgt:
+        layer: [81, 0]
+        width: 2
+        color: "#004080"
+      Errors:
+        layer: [69, 0]
+        width: 1
+        color: "blue"
+      Lumerical:
+        layer: [733, 0]
+        width: 3
+        color: "#800057"
+  Virtual:
+    group_members:
+      EBL-Regions:
+        layer: [8100,0]
+        width: 4
+        color: "#0000ff"
+        line_style: "short dashed"
+        hatch_pattern: hollow
+      TEXT:
+        layer: [10, 0]
+        layer_in_name: true
+        width: 1
+        color: "blue"
+      FLOORPLAN:
+        layer: [99, 0]
+        layer_in_name: true
+        color: "#8000ff"
+        hatch_pattern: hollow
+        width: 3
+      SEM:
+        layer: [200, 0]
+        layer_in_name: true
+        color: "#ff00ff"
+      BlackBox:
+        layer: [998, 0]
+        layer_in_name: true
+        color: "#004080"
+        hatch_pattern: solid
+  Text:
+    layer: [66, 0]
     width: 1
     color: "blue"
   TE:
@@ -106,42 +161,6 @@ LayerViews:
     layer: [206, 0]
     layer_in_name: true
     color: "blue"
-  FLOORPLAN:
-    layer: [99, 0]
-    layer_in_name: true
-    color: "#8000ff"
-    hatch_pattern: hollow
-    width: 3
-  Lumerical:
-    layer: [733, 0]
-    width: 3
-    color: "#800057"
-  DevRec:
-    layer: [68, 0]
-    visible: true
-    transparent: true
-    width: 1
-    color: "#004080"
-    hatch_pattern: hollow
-  PinRec:
-    layer: [1, 10]
-    color: "#404040"
-  FbrTgt:
-    layer: [81, 0]
-    width: 2
-    color: "#004080"
-  Text:
-    layer: [66, 0]
-    width: 1
-    color: "blue"
-  Errors:
-    layer: [69, 0]
-    width: 1
-    color: "blue"
-  PinRecM:
-    layer: [1, 11]
-    width: 1
-    color: "#004080"
   XSECTION:
     group_members:
       XS_BOX:
