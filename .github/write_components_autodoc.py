@@ -1,7 +1,7 @@
 import inspect
 
-import ubcpdk
-from ubcpdk.config import PATH
+import UBCmwopPDK
+from UBCmwopPDK.config import PATH
 
 filepath = PATH.repo / "docs" / "components.rst"
 
@@ -34,7 +34,7 @@ with open(filepath, "w+") as f:
 Cells summary
 =============================
 
-.. currentmodule:: ubcpdk.components
+.. currentmodule:: UBCmwopPDK.components
 
 .. autosummary::
    :toctree: _autosummary/
@@ -42,11 +42,11 @@ Cells summary
 """
     )
 
-    for name in sorted(ubcpdk.cells.keys()):
+    for name in sorted(UBCmwopPDK.cells.keys()):
         if name in skip or name.startswith("_"):
             continue
         print(name)
-        sig = inspect.signature(ubcpdk.cells[name])
+        sig = inspect.signature(UBCmwopPDK.cells[name])
         kwargs = ", ".join(
             [
                 f"{p}={repr(sig.parameters[p].default)}"

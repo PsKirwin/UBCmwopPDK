@@ -18,10 +18,10 @@ dependencies = [
   "gdsfactory==7.23.0",
   "gplugins[tidy3d,sax,schematic]>=0.12,<0.13"
 ]
-description = "ubcpdk pdk"
+description = "UBCmwopPDK pdk"
 keywords = ["python"]
 license = {file = "LICENSE"}
-name = "ubcpdk"
+name = "UBCmwopPDK"
 readme = "README.md"
 requires-python = ">=3.10"
 version = "2.5.0"
@@ -55,10 +55,10 @@ live_mode = true
 strict = true
 
 [tool.pytest.ini_options]
-# testpaths = ["ubcpdk/samples", "tests"]
+# testpaths = ["UBCmwopPDK/samples", "tests"]
 # addopts = --tb=no
 # addopts = '--tb=short'
-# python_files = ["ubcpdk/samples*.py", "tests/*.py"]
+# python_files = ["UBCmwopPDK/samples*.py", "tests/*.py"]
 python_files = ["tests/*.py"]
 testpaths = ["tests"]
 
@@ -117,10 +117,10 @@ src = "README.md"
 src = "pyproject.toml"
 
 [[tool.tbump.file]]
-src = "ubcpdk/__init__.py"
+src = "UBCmwopPDK/__init__.py"
 
 [[tool.tbump.file]]
-src = "ubcpdk/klayout/tech/pymacros/set_menus.lym"
+src = "UBCmwopPDK/klayout/tech/pymacros/set_menus.lym"
 
 [tool.tbump.git]
 message_template = "Bump to {new_version}"

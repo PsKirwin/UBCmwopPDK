@@ -10,14 +10,14 @@ Cells
 add_fiber_array
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_fiber_array
+.. autofunction:: UBCmwopPDK.components.add_fiber_array
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_fiber_array(gc_port_name='o1', with_loopback=False, optical_routing_type=0, fanout_length=0.0, cross_section='xs_sc', layer_label=(10, 0))
+  c = UBCmwopPDK.components.add_fiber_array(gc_port_name='o1', with_loopback=False, optical_routing_type=0, fanout_length=0.0, cross_section='xs_sc', layer_label=(10, 0))
   c.plot()
 
 
@@ -25,14 +25,14 @@ add_fiber_array
 add_fiber_array_pads_rf
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_fiber_array_pads_rf
+.. autofunction:: UBCmwopPDK.components.add_fiber_array_pads_rf
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_fiber_array_pads_rf(component='ring_single_heater', username='JoaquinMatres', orientation=0)
+  c = UBCmwopPDK.components.add_fiber_array_pads_rf(component='ring_single_heater', username='JoaquinMatres', orientation=0)
   c.plot()
 
 
@@ -40,14 +40,14 @@ add_fiber_array_pads_rf
 add_pads
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pads
+.. autofunction:: UBCmwopPDK.components.add_pads
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pads(component='ring_single_heater', username='JoaquinMatres')
+  c = UBCmwopPDK.components.add_pads(component='ring_single_heater', username='JoaquinMatres')
   c.plot()
 
 
@@ -55,14 +55,14 @@ add_pads
 add_pads_dc
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pads_dc
+.. autofunction:: UBCmwopPDK.components.add_pads_dc
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pads_dc(component='ring_single_heater', spacing=(0.0, 100.0))
+  c = UBCmwopPDK.components.add_pads_dc(component='ring_single_heater', spacing=(0.0, 100.0))
   c.plot()
 
 
@@ -70,14 +70,14 @@ add_pads_dc
 add_pads_rf
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pads_rf
+.. autofunction:: UBCmwopPDK.components.add_pads_rf
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pads_rf(component='ring_single_heater', direction='top', spacing=(0.0, 100.0), layer='MTOP')
+  c = UBCmwopPDK.components.add_pads_rf(component='ring_single_heater', direction='top', spacing=(0.0, 100.0), layer='MTOP')
   c.plot()
 
 
@@ -85,14 +85,14 @@ add_pads_rf
 add_pins_bbox_siepic
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pins_bbox_siepic
+.. autofunction:: UBCmwopPDK.components.add_pins_bbox_siepic
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pins_bbox_siepic(port_type='optical', layer_pin=(1, 10), pin_length=0.01, bbox_layer=(68, 0), padding=0, remove_layers=False)
+  c = UBCmwopPDK.components.add_pins_bbox_siepic(port_type='optical', layer_pin=(1, 10), pin_length=0.01, bbox_layer=(68, 0), padding=0, remove_layers=False)
   c.plot()
 
 
@@ -100,14 +100,14 @@ add_pins_bbox_siepic
 add_pins_bbox_siepic_remove_layers
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pins_bbox_siepic_remove_layers
+.. autofunction:: UBCmwopPDK.components.add_pins_bbox_siepic_remove_layers
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pins_bbox_siepic_remove_layers(port_type='optical', layer_pin=(1, 10), pin_length=0.01, bbox_layer=(68, 0), padding=0, remove_layers=True)
+  c = UBCmwopPDK.components.add_pins_bbox_siepic_remove_layers(port_type='optical', layer_pin=(1, 10), pin_length=0.01, bbox_layer=(68, 0), padding=0, remove_layers=True)
   c.plot()
 
 
@@ -115,14 +115,14 @@ add_pins_bbox_siepic_remove_layers
 add_pins_siepic_metal
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.add_pins_siepic_metal
+.. autofunction:: UBCmwopPDK.components.add_pins_siepic_metal
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.add_pins_siepic_metal(port_type='placement', layer_pin=(1, 11), pin_length=0.01)
+  c = UBCmwopPDK.components.add_pins_siepic_metal(port_type='placement', layer_pin=(1, 11), pin_length=0.01)
   c.plot()
 
 
@@ -130,14 +130,14 @@ add_pins_siepic_metal
 bend
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.bend
+.. autofunction:: UBCmwopPDK.components.bend
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.bend()
+  c = UBCmwopPDK.components.bend()
   c.plot()
 
 
@@ -145,14 +145,14 @@ bend
 bend_euler180_sc
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.bend_euler180_sc
+.. autofunction:: UBCmwopPDK.components.bend_euler180_sc
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.bend_euler180_sc()
+  c = UBCmwopPDK.components.bend_euler180_sc()
   c.plot()
 
 
@@ -160,14 +160,14 @@ bend_euler180_sc
 bend_euler_sc
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.bend_euler_sc
+.. autofunction:: UBCmwopPDK.components.bend_euler_sc
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.bend_euler_sc()
+  c = UBCmwopPDK.components.bend_euler_sc()
   c.plot()
 
 
@@ -175,14 +175,14 @@ bend_euler_sc
 bend_s
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.bend_s
+.. autofunction:: UBCmwopPDK.components.bend_s
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.bend_s(size=(11.0, 1.8), npoints=99, cross_section='xs_sc')
+  c = UBCmwopPDK.components.bend_s(size=(11.0, 1.8), npoints=99, cross_section='xs_sc')
   c.plot()
 
 
@@ -190,14 +190,14 @@ bend_s
 coupler
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.coupler
+.. autofunction:: UBCmwopPDK.components.coupler
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.coupler(gap=0.236, length=20.0, dy=4.0, dx=10.0)
+  c = UBCmwopPDK.components.coupler(gap=0.236, length=20.0, dy=4.0, dx=10.0)
   c.plot()
 
 
@@ -205,14 +205,14 @@ coupler
 coupler_ring
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.coupler_ring
+.. autofunction:: UBCmwopPDK.components.coupler_ring
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, length_extension=3)
+  c = UBCmwopPDK.components.coupler_ring(gap=0.2, radius=5.0, length_x=4.0, length_extension=3)
   c.plot()
 
 
@@ -220,14 +220,14 @@ coupler_ring
 dbg
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.dbg
+.. autofunction:: UBCmwopPDK.components.dbg
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.dbg(w0=0.5, dw=0.1, n=100, l1=0.07940573770491803, l2=0.07940573770491803)
+  c = UBCmwopPDK.components.dbg(w0=0.5, dw=0.1, n=100, l1=0.07940573770491803, l2=0.07940573770491803)
   c.plot()
 
 
@@ -235,14 +235,14 @@ dbg
 dbr
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.dbr
+.. autofunction:: UBCmwopPDK.components.dbr
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.dbr(w0=0.5, dw=0.1, n=100, l1=0.07940573770491803, l2=0.07940573770491803)
+  c = UBCmwopPDK.components.dbr(w0=0.5, dw=0.1, n=100, l1=0.07940573770491803, l2=0.07940573770491803)
   c.plot()
 
 
@@ -250,14 +250,14 @@ dbr
 dbr_cavity
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.dbr_cavity
+.. autofunction:: UBCmwopPDK.components.dbr_cavity
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.dbr_cavity()
+  c = UBCmwopPDK.components.dbr_cavity()
   c.plot()
 
 
@@ -265,14 +265,14 @@ dbr_cavity
 dbr_cavity_te
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.dbr_cavity_te
+.. autofunction:: UBCmwopPDK.components.dbr_cavity_te
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.dbr_cavity_te(component='dbr_cavity')
+  c = UBCmwopPDK.components.dbr_cavity_te(component='dbr_cavity')
   c.plot()
 
 
@@ -280,14 +280,14 @@ dbr_cavity_te
 ebeam_BondPad
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_BondPad
+.. autofunction:: UBCmwopPDK.components.ebeam_BondPad
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_BondPad()
+  c = UBCmwopPDK.components.ebeam_BondPad()
   c.plot()
 
 
@@ -295,14 +295,14 @@ ebeam_BondPad
 ebeam_adiabatic_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_adiabatic_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_adiabatic_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_adiabatic_te1550()
+  c = UBCmwopPDK.components.ebeam_adiabatic_te1550()
   c.plot()
 
 
@@ -310,14 +310,14 @@ ebeam_adiabatic_te1550
 ebeam_adiabatic_tm1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_adiabatic_tm1550
+.. autofunction:: UBCmwopPDK.components.ebeam_adiabatic_tm1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_adiabatic_tm1550()
+  c = UBCmwopPDK.components.ebeam_adiabatic_tm1550()
   c.plot()
 
 
@@ -325,14 +325,14 @@ ebeam_adiabatic_tm1550
 ebeam_bdc_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_bdc_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_bdc_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_bdc_te1550()
+  c = UBCmwopPDK.components.ebeam_bdc_te1550()
   c.plot()
 
 
@@ -340,14 +340,14 @@ ebeam_bdc_te1550
 ebeam_bdc_tm1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_bdc_tm1550
+.. autofunction:: UBCmwopPDK.components.ebeam_bdc_tm1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_bdc_tm1550()
+  c = UBCmwopPDK.components.ebeam_bdc_tm1550()
   c.plot()
 
 
@@ -355,14 +355,14 @@ ebeam_bdc_tm1550
 ebeam_crossing4
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_crossing4
+.. autofunction:: UBCmwopPDK.components.ebeam_crossing4
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_crossing4()
+  c = UBCmwopPDK.components.ebeam_crossing4()
   c.plot()
 
 
@@ -370,14 +370,14 @@ ebeam_crossing4
 ebeam_crossing4_2ports
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_crossing4_2ports
+.. autofunction:: UBCmwopPDK.components.ebeam_crossing4_2ports
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_crossing4_2ports()
+  c = UBCmwopPDK.components.ebeam_crossing4_2ports()
   c.plot()
 
 
@@ -385,14 +385,14 @@ ebeam_crossing4_2ports
 ebeam_dc_halfring_straight
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_dc_halfring_straight
+.. autofunction:: UBCmwopPDK.components.ebeam_dc_halfring_straight
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_dc_halfring_straight(gap=0.2, radius=5.0, length_x=4.0, siepic=True, model='ebeam_dc_halfring_straight')
+  c = UBCmwopPDK.components.ebeam_dc_halfring_straight(gap=0.2, radius=5.0, length_x=4.0, siepic=True, model='ebeam_dc_halfring_straight')
   c.plot()
 
 
@@ -400,14 +400,14 @@ ebeam_dc_halfring_straight
 ebeam_dc_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_dc_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_dc_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_dc_te1550(gap=0.236, length=20.0, dy=4.0, dx=10.0, cross_section='xs_sc')
+  c = UBCmwopPDK.components.ebeam_dc_te1550(gap=0.236, length=20.0, dy=4.0, dx=10.0, cross_section='xs_sc')
   c.plot()
 
 
@@ -415,14 +415,14 @@ ebeam_dc_te1550
 ebeam_splitter_adiabatic_swg_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_splitter_adiabatic_swg_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_splitter_adiabatic_swg_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_splitter_adiabatic_swg_te1550()
+  c = UBCmwopPDK.components.ebeam_splitter_adiabatic_swg_te1550()
   c.plot()
 
 
@@ -430,14 +430,14 @@ ebeam_splitter_adiabatic_swg_te1550
 ebeam_splitter_swg_assist_te1310
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_splitter_swg_assist_te1310
+.. autofunction:: UBCmwopPDK.components.ebeam_splitter_swg_assist_te1310
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_splitter_swg_assist_te1310()
+  c = UBCmwopPDK.components.ebeam_splitter_swg_assist_te1310()
   c.plot()
 
 
@@ -445,14 +445,14 @@ ebeam_splitter_swg_assist_te1310
 ebeam_splitter_swg_assist_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_splitter_swg_assist_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_splitter_swg_assist_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_splitter_swg_assist_te1550()
+  c = UBCmwopPDK.components.ebeam_splitter_swg_assist_te1550()
   c.plot()
 
 
@@ -460,14 +460,14 @@ ebeam_splitter_swg_assist_te1550
 ebeam_swg_edgecoupler
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_swg_edgecoupler
+.. autofunction:: UBCmwopPDK.components.ebeam_swg_edgecoupler
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_swg_edgecoupler()
+  c = UBCmwopPDK.components.ebeam_swg_edgecoupler()
   c.plot()
 
 
@@ -475,14 +475,14 @@ ebeam_swg_edgecoupler
 ebeam_terminator_te1310
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_terminator_te1310
+.. autofunction:: UBCmwopPDK.components.ebeam_terminator_te1310
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_terminator_te1310()
+  c = UBCmwopPDK.components.ebeam_terminator_te1310()
   c.plot()
 
 
@@ -490,14 +490,14 @@ ebeam_terminator_te1310
 ebeam_terminator_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_terminator_te1550
+.. autofunction:: UBCmwopPDK.components.ebeam_terminator_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_terminator_te1550()
+  c = UBCmwopPDK.components.ebeam_terminator_te1550()
   c.plot()
 
 
@@ -505,14 +505,14 @@ ebeam_terminator_te1550
 ebeam_terminator_tm1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_terminator_tm1550
+.. autofunction:: UBCmwopPDK.components.ebeam_terminator_tm1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_terminator_tm1550()
+  c = UBCmwopPDK.components.ebeam_terminator_tm1550()
   c.plot()
 
 
@@ -520,14 +520,14 @@ ebeam_terminator_tm1550
 ebeam_y_1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_y_1550
+.. autofunction:: UBCmwopPDK.components.ebeam_y_1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_y_1550()
+  c = UBCmwopPDK.components.ebeam_y_1550()
   c.plot()
 
 
@@ -535,14 +535,14 @@ ebeam_y_1550
 ebeam_y_adiabatic
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_y_adiabatic
+.. autofunction:: UBCmwopPDK.components.ebeam_y_adiabatic
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_y_adiabatic()
+  c = UBCmwopPDK.components.ebeam_y_adiabatic()
   c.plot()
 
 
@@ -550,14 +550,14 @@ ebeam_y_adiabatic
 ebeam_y_adiabatic_1310
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_y_adiabatic_1310
+.. autofunction:: UBCmwopPDK.components.ebeam_y_adiabatic_1310
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_y_adiabatic_1310()
+  c = UBCmwopPDK.components.ebeam_y_adiabatic_1310()
   c.plot()
 
 
@@ -565,14 +565,14 @@ ebeam_y_adiabatic_1310
 ebeam_y_adiabatic_tapers
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ebeam_y_adiabatic_tapers
+.. autofunction:: UBCmwopPDK.components.ebeam_y_adiabatic_tapers
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ebeam_y_adiabatic_tapers()
+  c = UBCmwopPDK.components.ebeam_y_adiabatic_tapers()
   c.plot()
 
 
@@ -580,14 +580,14 @@ ebeam_y_adiabatic_tapers
 gc_te1310
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1310
+.. autofunction:: UBCmwopPDK.components.gc_te1310
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1310()
+  c = UBCmwopPDK.components.gc_te1310()
   c.plot()
 
 
@@ -595,14 +595,14 @@ gc_te1310
 gc_te1310_8deg
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1310_8deg
+.. autofunction:: UBCmwopPDK.components.gc_te1310_8deg
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1310_8deg()
+  c = UBCmwopPDK.components.gc_te1310_8deg()
   c.plot()
 
 
@@ -610,14 +610,14 @@ gc_te1310_8deg
 gc_te1310_broadband
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1310_broadband
+.. autofunction:: UBCmwopPDK.components.gc_te1310_broadband
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1310_broadband()
+  c = UBCmwopPDK.components.gc_te1310_broadband()
   c.plot()
 
 
@@ -625,14 +625,14 @@ gc_te1310_broadband
 gc_te1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1550
+.. autofunction:: UBCmwopPDK.components.gc_te1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1550()
+  c = UBCmwopPDK.components.gc_te1550()
   c.plot()
 
 
@@ -640,14 +640,14 @@ gc_te1550
 gc_te1550_90nmSlab
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1550_90nmSlab
+.. autofunction:: UBCmwopPDK.components.gc_te1550_90nmSlab
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1550_90nmSlab()
+  c = UBCmwopPDK.components.gc_te1550_90nmSlab()
   c.plot()
 
 
@@ -655,14 +655,14 @@ gc_te1550_90nmSlab
 gc_te1550_broadband
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_te1550_broadband
+.. autofunction:: UBCmwopPDK.components.gc_te1550_broadband
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_te1550_broadband()
+  c = UBCmwopPDK.components.gc_te1550_broadband()
   c.plot()
 
 
@@ -670,14 +670,14 @@ gc_te1550_broadband
 gc_tm1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.gc_tm1550
+.. autofunction:: UBCmwopPDK.components.gc_tm1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.gc_tm1550()
+  c = UBCmwopPDK.components.gc_tm1550()
   c.plot()
 
 
@@ -685,14 +685,14 @@ gc_tm1550
 metal_via
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.metal_via
+.. autofunction:: UBCmwopPDK.components.metal_via
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.metal_via()
+  c = UBCmwopPDK.components.metal_via()
   c.plot()
 
 
@@ -700,14 +700,14 @@ metal_via
 mmi1x2
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.mmi1x2
+.. autofunction:: UBCmwopPDK.components.mmi1x2
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.mmi1x2(width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25)
+  c = UBCmwopPDK.components.mmi1x2(width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25)
   c.plot()
 
 
@@ -715,14 +715,14 @@ mmi1x2
 mzi
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.mzi
+.. autofunction:: UBCmwopPDK.components.mzi
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
+  c = UBCmwopPDK.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
   c.plot()
 
 
@@ -730,14 +730,14 @@ mzi
 mzi_heater
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.mzi_heater
+.. autofunction:: UBCmwopPDK.components.mzi_heater
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.mzi_heater(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
+  c = UBCmwopPDK.components.mzi_heater(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2, cross_section='xs_sc', mirror_bot=False, add_optical_ports_arms=False, add_electrical_ports_bot=True)
   c.plot()
 
 
@@ -745,14 +745,14 @@ mzi_heater
 pad
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.pad
+.. autofunction:: UBCmwopPDK.components.pad
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.pad(size=(75, 75), layer=(12, 0), bbox_layers=((13, 0),), bbox_offsets=(-1.8,), port_inclusion=0)
+  c = UBCmwopPDK.components.pad(size=(75, 75), layer=(12, 0), bbox_layers=((13, 0),), bbox_offsets=(-1.8,), port_inclusion=0)
   c.plot()
 
 
@@ -760,14 +760,14 @@ pad
 pad_array
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.pad_array
+.. autofunction:: UBCmwopPDK.components.pad_array
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.pad_array(spacing=(125, 125), columns=6, rows=1, orientation=270)
+  c = UBCmwopPDK.components.pad_array(spacing=(125, 125), columns=6, rows=1, orientation=270)
   c.plot()
 
 
@@ -775,14 +775,14 @@ pad_array
 photonic_wirebond_surfacetaper_1310
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.photonic_wirebond_surfacetaper_1310
+.. autofunction:: UBCmwopPDK.components.photonic_wirebond_surfacetaper_1310
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.photonic_wirebond_surfacetaper_1310()
+  c = UBCmwopPDK.components.photonic_wirebond_surfacetaper_1310()
   c.plot()
 
 
@@ -790,14 +790,14 @@ photonic_wirebond_surfacetaper_1310
 photonic_wirebond_surfacetaper_1550
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.photonic_wirebond_surfacetaper_1550
+.. autofunction:: UBCmwopPDK.components.photonic_wirebond_surfacetaper_1550
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.photonic_wirebond_surfacetaper_1550()
+  c = UBCmwopPDK.components.photonic_wirebond_surfacetaper_1550()
   c.plot()
 
 
@@ -805,14 +805,14 @@ photonic_wirebond_surfacetaper_1550
 ring_double
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ring_double
+.. autofunction:: UBCmwopPDK.components.ring_double
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ring_double(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01)
+  c = UBCmwopPDK.components.ring_double(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01)
   c.plot()
 
 
@@ -820,14 +820,14 @@ ring_double
 ring_double_heater
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ring_double_heater
+.. autofunction:: UBCmwopPDK.components.ring_double_heater
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ring_double_heater(gap=0.2, radius=10.0, length_x=1.0, length_y=0.2, cross_section_heater='xs_heater_metal', cross_section_waveguide_heater='xs_sc_heater_metal', via_stack_offset=(1, 0))
+  c = UBCmwopPDK.components.ring_double_heater(gap=0.2, radius=10.0, length_x=1.0, length_y=0.2, cross_section_heater='xs_heater_metal', cross_section_waveguide_heater='xs_sc_heater_metal', via_stack_offset=(1, 0))
   c.plot()
 
 
@@ -835,14 +835,14 @@ ring_double_heater
 ring_single
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ring_single
+.. autofunction:: UBCmwopPDK.components.ring_single
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, pass_cross_section_to_bend=False)
+  c = UBCmwopPDK.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, pass_cross_section_to_bend=False)
   c.plot()
 
 
@@ -850,14 +850,14 @@ ring_single
 ring_single_heater
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ring_single_heater
+.. autofunction:: UBCmwopPDK.components.ring_single_heater
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='xs_sc_heater_metal', via_stack_offset=(0, 0))
+  c = UBCmwopPDK.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section_waveguide_heater='xs_sc_heater_metal', via_stack_offset=(0, 0))
   c.plot()
 
 
@@ -865,14 +865,14 @@ ring_single_heater
 ring_with_crossing
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.ring_with_crossing
+.. autofunction:: UBCmwopPDK.components.ring_with_crossing
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.ring_with_crossing(gap=0.2, length_x=4, length_y=0, radius=5.0, with_component=True, port_name='o4')
+  c = UBCmwopPDK.components.ring_with_crossing(gap=0.2, length_x=4, length_y=0, radius=5.0, with_component=True, port_name='o4')
   c.plot()
 
 
@@ -880,14 +880,14 @@ ring_with_crossing
 spiral
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.spiral
+.. autofunction:: UBCmwopPDK.components.spiral
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.spiral(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='xs_sc', with_inner_ports=False, y_straight_outer_offset=0.0, inner_loop_spacing_offset=0.0, mirror_straight=False)
+  c = UBCmwopPDK.components.spiral(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0, cross_section='xs_sc', with_inner_ports=False, y_straight_outer_offset=0.0, inner_loop_spacing_offset=0.0, mirror_straight=False)
   c.plot()
 
 
@@ -895,14 +895,14 @@ spiral
 straight
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.straight
+.. autofunction:: UBCmwopPDK.components.straight
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.straight(length=10.0, npoints=2, cross_section='xs_sc', post_process=(functools.partial(<function add_padding at 0x7f87372dd440>, layers=((68, 0),), default=0, top=0.5, bottom=0.5),))
+  c = UBCmwopPDK.components.straight(length=10.0, npoints=2, cross_section='xs_sc', post_process=(functools.partial(<function add_padding at 0x7f87372dd440>, layers=((68, 0),), default=0, top=0.5, bottom=0.5),))
   c.plot()
 
 
@@ -910,14 +910,14 @@ straight
 straight_heater_metal
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.straight_heater_metal
+.. autofunction:: UBCmwopPDK.components.straight_heater_metal
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight=0.1, length_straight_input=15.0, cross_section='xs_sc', cross_section_heater='xs_heater_metal', cross_section_waveguide_heater='xs_sc_heater_metal', cross_section_heater_undercut='xs_sc_heater_metal_undercut', with_undercut=False, via_stack='via_stack_heater_mtop', heater_taper_length=5.0)
+  c = UBCmwopPDK.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight=0.1, length_straight_input=15.0, cross_section='xs_sc', cross_section_heater='xs_heater_metal', cross_section_waveguide_heater='xs_sc_heater_metal', cross_section_heater_undercut='xs_sc_heater_metal_undercut', with_undercut=False, via_stack='via_stack_heater_mtop', heater_taper_length=5.0)
   c.plot()
 
 
@@ -925,14 +925,14 @@ straight_heater_metal
 straight_one_pin
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.straight_one_pin
+.. autofunction:: UBCmwopPDK.components.straight_one_pin
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.straight_one_pin(length=1)
+  c = UBCmwopPDK.components.straight_one_pin(length=1)
   c.plot()
 
 
@@ -940,14 +940,14 @@ straight_one_pin
 taper
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.taper
+.. autofunction:: UBCmwopPDK.components.taper
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.taper(length=10.0, width1=0.5, with_two_ports=True, cross_section='xs_sc', port_order_name=('o1', 'o2'), port_order_types=('optical', 'optical'))
+  c = UBCmwopPDK.components.taper(length=10.0, width1=0.5, with_two_ports=True, cross_section='xs_sc', port_order_name=('o1', 'o2'), port_order_types=('optical', 'optical'))
   c.plot()
 
 
@@ -955,14 +955,14 @@ taper
 terminator_short
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.terminator_short
+.. autofunction:: UBCmwopPDK.components.terminator_short
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.terminator_short()
+  c = UBCmwopPDK.components.terminator_short()
   c.plot()
 
 
@@ -970,14 +970,14 @@ terminator_short
 thermal_phase_shifter0
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.thermal_phase_shifter0
+.. autofunction:: UBCmwopPDK.components.thermal_phase_shifter0
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.thermal_phase_shifter0()
+  c = UBCmwopPDK.components.thermal_phase_shifter0()
   c.plot()
 
 
@@ -985,14 +985,14 @@ thermal_phase_shifter0
 thermal_phase_shifter1
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.thermal_phase_shifter1
+.. autofunction:: UBCmwopPDK.components.thermal_phase_shifter1
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.thermal_phase_shifter1()
+  c = UBCmwopPDK.components.thermal_phase_shifter1()
   c.plot()
 
 
@@ -1000,14 +1000,14 @@ thermal_phase_shifter1
 thermal_phase_shifter2
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.thermal_phase_shifter2
+.. autofunction:: UBCmwopPDK.components.thermal_phase_shifter2
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.thermal_phase_shifter2()
+  c = UBCmwopPDK.components.thermal_phase_shifter2()
   c.plot()
 
 
@@ -1015,14 +1015,14 @@ thermal_phase_shifter2
 thermal_phase_shifter3
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.thermal_phase_shifter3
+.. autofunction:: UBCmwopPDK.components.thermal_phase_shifter3
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.thermal_phase_shifter3()
+  c = UBCmwopPDK.components.thermal_phase_shifter3()
   c.plot()
 
 
@@ -1030,12 +1030,12 @@ thermal_phase_shifter3
 via_stack_heater_mtop
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.via_stack_heater_mtop
+.. autofunction:: UBCmwopPDK.components.via_stack_heater_mtop
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.via_stack_heater_mtop(size=(10, 10), layers=((11, 0), (12, 0)), vias=(None, None), correct_size=True, slot_horizontal=False, slot_vertical=False)
+  c = UBCmwopPDK.components.via_stack_heater_mtop(size=(10, 10), layers=((11, 0), (12, 0)), vias=(None, None), correct_size=True, slot_horizontal=False, slot_vertical=False)
   c.plot()

@@ -41,9 +41,9 @@ def plot_bandwidth(x, y, threshold: float = 3) -> None:
 
 
 if __name__ == "__main__":
-    from ubcpdk.data.chop import chop
-    from ubcpdk.data.dbr import dbrs
-    from ubcpdk.data.read_mat import read_mat
+    from UBCmwopPDK.data.chop import chop
+    from UBCmwopPDK.data.dbr import dbrs
+    from UBCmwopPDK.data.read_mat import read_mat
 
     w, p = read_mat(dbrs["1_5"], port=1)
     wc, pc = chop(w, p, ymin=-60)

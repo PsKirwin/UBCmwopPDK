@@ -29,8 +29,8 @@ def read_mat(filename: PathType, port: int = 0) -> Tuple[np.ndarray, np.ndarray]
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    import ubcpdk
+    import UBCmwopPDK
 
-    w, p = read_mat(ubcpdk.PATH.mzi1)
+    w, p = read_mat(UBCmwopPDK.PATH.mzi1)
     plt.plot(w, p)
     plt.show()

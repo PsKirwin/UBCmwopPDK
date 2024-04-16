@@ -1,7 +1,7 @@
-from ubcpdk.simulation.circuits.mzi_spectrum import (
+from UBCmwopPDK.simulation.circuits.mzi_spectrum import (
     mzi_spectrum,
 )
-from ubcpdk.simulation.circuits.waveguide import (
+from UBCmwopPDK.simulation.circuits.waveguide import (
     beta,
     neff,
 )

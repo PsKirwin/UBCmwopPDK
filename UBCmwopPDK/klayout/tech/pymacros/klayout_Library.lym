@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>import_ubcpdk_PCells</description>
+ <description>import_UBCmwopPDK_PCells</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
@@ -12,7 +12,7 @@
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name/>
- <menu-path>ubcpdk.begin</menu-path>
+ <menu-path>UBCmwopPDK.begin</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>
@@ -56,8 +56,8 @@ sys.path.append(str(pathlib.Path(f'{env_dir}/site-packages/')))
 try:
     import flayout as fl
     from flayout.pcell import _klayout_type, _validate_parameter, copy_tree
-    import ubcpdk.components as gfc
-    import ubcpdk
+    import UBCmwopPDK.components as gfc
+    import UBCmwopPDK
     import gdsfactory as gf
     from gdsfactory.routing.manhattan import route_manhattan
     from gdsfactory.routing.get_bundle import get_bundle
@@ -84,7 +84,7 @@ routers = {
 # PCell class that creates the PCell
 class PCellFactory(pya.PCellDeclarationHelper):
     def __init__(self, component) -> None:
-        """Create a PCell from a ubcpdk component."""
+        """Create a PCell from a UBCmwopPDK component."""
         super().__init__()
         self.gf_component = component.func if isinstance(component, partial) else component # this is a function that returns a component
         self.sig = self._extract_sig(self.gf_component) or {}
@@ -231,8 +231,8 @@ class PCellFactory(pya.PCellDeclarationHelper):
         # PCell instance from the layout.
         # TODO: Find a better way to do this.
         pcells_in_layout.setdefault(top.name, {}).setdefault('pcell', self)
-        pcellid = ubcpdk_lib.layout().pcell_declaration(self.cell.name).id()
-        layout.add_pcell_variant(ubcpdk_lib, pcellid, dict(zip(self._param_keys, self._param_values)))
+        pcellid = UBCmwopPDK_lib.layout().pcell_declaration(self.cell.name).id()
+        layout.add_pcell_variant(UBCmwopPDK_lib, pcellid, dict(zip(self._param_keys, self._param_values)))
 
         # Add routes
         router = routers[router]
@@ -251,23 +251,23 @@ class PCellFactory(pya.PCellDeclarationHelper):
 
         return top
 
-ubcpdk_lib = fl.library(
-    "ubcpdk PDK",
+UBCmwopPDK_lib = fl.library(
+    "UBCmwopPDK PDK",
     pcells=[],
     cells=[],
-    description="GDSFactory ubcpdk PCell Library",
+    description="GDSFactory UBCmwopPDK PCell Library",
 )
 # Would be nice to add SiEPIC pins to all of these
-pb = pya.AbsoluteProgress("Importing ubcpdk components", len(ubcpdk.cells.keys()))
-for i, cell in enumerate(ubcpdk.cells.items()):
+pb = pya.AbsoluteProgress("Importing UBCmwopPDK components", len(UBCmwopPDK.cells.keys()))
+for i, cell in enumerate(UBCmwopPDK.cells.items()):
 
-    pb.set(i / len(ubcpdk.cells.items()) * 100, True)
+    pb.set(i / len(UBCmwopPDK.cells.items()) * 100, True)
 
     try:
          # Cell function signature, used by flayout
 
         func = PCellFactory(cell[1]) # Cell function
-        ubcpdk_lib.layout().register_pcell(cell[0], func) # Register the PCell
+        UBCmwopPDK_lib.layout().register_pcell(cell[0], func) # Register the PCell
 
     except Exception as e:
         pass # Ignore components that cannot be converted to PCells

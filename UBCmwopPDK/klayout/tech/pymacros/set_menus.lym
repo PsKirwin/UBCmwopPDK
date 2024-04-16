@@ -11,7 +11,7 @@
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
- <menu-path>ubcpdk.begin</menu-path>
+ <menu-path>UBCmwopPDK.begin</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>
@@ -23,9 +23,9 @@ __version__ = "2.5.0"
 def set_menu():
     menu = pya.Application.instance().main_window().menu()
 
-    s0 = "ubcpdk"
+    s0 = "UBCmwopPDK"
     if not (menu.is_menu(s0)):
-        menu.insert_menu("macros_menu", s0, f"ubcpdk {__version__}")
+        menu.insert_menu("macros_menu", s0, f"UBCmwopPDK {__version__}")
 
 
 if __name__ == "__main__":

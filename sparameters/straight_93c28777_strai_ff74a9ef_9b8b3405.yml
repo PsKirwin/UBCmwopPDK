@@ -37,7 +37,7 @@ component:
   version: 0.0.1
   settings:
     name: straight_93c28777_strai_ff74a9ef
-    module: ubcpdk.components.straight
+    module: UBCmwopPDK.components.straight
     function_name: straight
     info: {}
     info_version: 2

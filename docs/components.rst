@@ -3,7 +3,7 @@
 Cells summary
 =============================
 
-.. currentmodule:: ubcpdk.components
+.. currentmodule:: UBCmwopPDK.components
 
 .. autosummary::
    :toctree: _autosummary/

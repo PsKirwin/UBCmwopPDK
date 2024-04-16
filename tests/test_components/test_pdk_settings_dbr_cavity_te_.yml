@@ -1,6 +1,6 @@
 function: add_fiber_array
 info: {}
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: add_fiber_array_add_fiber_array_d1dbd359
 settings:
   component:
@@ -9,7 +9,7 @@ settings:
     settings:
       component:
         function: dbr
-        module: ubcpdk.components
+        module: UBCmwopPDK.components
         settings:
           cross_section:
             function: cross_section

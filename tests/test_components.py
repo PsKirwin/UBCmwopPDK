@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from ubcpdk import cells
+from UBCmwopPDK import cells
 
 skip_test = {
     "add_siepic_labels",

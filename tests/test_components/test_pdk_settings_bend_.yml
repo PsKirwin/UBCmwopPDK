@@ -10,6 +10,6 @@ info:
   route_info_weight: 16.637
   route_info_xs_sc_devrec_length: 16.637
   width: 0.5
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: bend_euler_sc
 settings: {}

@@ -50,7 +50,7 @@ component:
   version: 0.0.1
   settings:
     name: ebeam_crossing4_7e264905
-    module: ubcpdk.components
+    module: UBCmwopPDK.components
     function_name: ebeam_crossing4
     info:
       library: Design kits/ebeam

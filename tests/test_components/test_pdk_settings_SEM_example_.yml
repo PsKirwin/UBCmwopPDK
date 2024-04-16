@@ -9,6 +9,6 @@ settings:
     library: Design kits/ebeam
     model: SEM_example
   info_version: 2
-  module: ubcpdk.components
+  module: UBCmwopPDK.components
   name: SEM_example
 version: 0.0.1

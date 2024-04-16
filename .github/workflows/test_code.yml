@@ -40,7 +40,7 @@ jobs:
           make install
       - name: Test with pytest
         run: |
-          pytest --cov=ubcpdk tests/
+          pytest --cov=UBCmwopPDK tests/
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

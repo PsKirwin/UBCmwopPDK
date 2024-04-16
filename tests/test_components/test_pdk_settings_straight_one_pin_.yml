@@ -1,6 +1,6 @@
 function: straight_one_pin
 info: {}
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: straight_one_pin
 settings:
   cross_section:

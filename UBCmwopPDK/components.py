@@ -16,10 +16,10 @@ from gdsfactory.typings import (
     Tuple,
 )
 
-from ubcpdk import tech
-from ubcpdk.config import CONFIG
-from ubcpdk.import_gds import import_gc, import_gds
-from ubcpdk.tech import (
+from UBCmwopPDK import tech
+from UBCmwopPDK.config import CONFIG
+from UBCmwopPDK.import_gds import import_gc, import_gds
+from UBCmwopPDK.tech import (
     LAYER,
     LAYER_STACK,
     add_pins_bbox_siepic,

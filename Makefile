@@ -15,7 +15,7 @@ test:
 	pytest -s
 
 cov:
-	pytest --cov=ubcpdk
+	pytest --cov=UBCmwopPDK
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
@@ -38,6 +38,6 @@ docs:
 	jb build docs
 
 mask:
-	python ubcpdk/samples/test_masks.py
+	python UBCmwopPDK/samples/test_masks.py
 
 .PHONY: drc doc docs install

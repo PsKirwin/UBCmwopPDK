@@ -88,7 +88,7 @@ component:
         - 1
         - 0
     name: straight_f1777396_strai_554f2b19
-    module: ubcpdk.components.straight
+    module: UBCmwopPDK.components.straight
     function_name: straight
     info_version: 1
     changed:
@@ -139,7 +139,7 @@ component:
           - 1
           - 0
       name: straight_f1777396_strai_554f2b19
-      module: ubcpdk.components.straight
+      module: UBCmwopPDK.components.straight
       function_name: straight
       info_version: 1
       changed:

@@ -4,7 +4,7 @@ from functools import partial
 
 import gplugins.modes as gm
 
-from ubcpdk.config import PATH
+from UBCmwopPDK.config import PATH
 
 nm = 1e-3
 

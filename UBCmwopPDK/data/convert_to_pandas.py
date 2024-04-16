@@ -23,7 +23,7 @@ def convert_to_pandas(filename: PathType, port: int = 0) -> pd.DataFrame:
 if __name__ == "__main__":
     import json
 
-    from ubcpdk.config import PATH
+    from UBCmwopPDK.config import PATH
 
     for filepath in [
         PATH.ring_te_r3_g100,

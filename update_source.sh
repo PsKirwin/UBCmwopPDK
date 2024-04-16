@@ -6,9 +6,9 @@ export CML_VER=2022_02_01
 export GIT_REPO=https://github.com/SiEPIC/SiEPIC_EBeam_PDK
 
 export REPO_TECH=SiEPIC_EBeam_PDK-${VERSION}/klayout_dot_config/tech/EBeam
-export UBC_TECH=ubcpdk/klayout/tech
-export LUM_DIR=ubcpdk/simulation/lumerical
-export GDS_DIR=ubcpdk/gds
+export UBC_TECH=UBCmwopPDK/klayout/tech
+export LUM_DIR=UBCmwopPDK/simulation/lumerical
+export GDS_DIR=UBCmwopPDK/gds
 
 
 # Download EBeam PDK archive and extract it here

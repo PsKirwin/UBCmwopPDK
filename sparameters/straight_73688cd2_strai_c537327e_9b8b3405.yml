@@ -37,7 +37,7 @@ component:
   version: 0.0.1
   settings:
     name: straight_73688cd2_strai_c537327e
-    module: ubcpdk.components.straight
+    module: UBCmwopPDK.components.straight
     function_name: straight
     info:
       width: 0.5

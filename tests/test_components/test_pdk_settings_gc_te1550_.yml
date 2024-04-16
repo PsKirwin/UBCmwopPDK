@@ -4,6 +4,6 @@ info:
   model: ebeam_gc_te1550
   polarization: te
   wavelength: 1.55
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: gc_te1550
 settings: {}

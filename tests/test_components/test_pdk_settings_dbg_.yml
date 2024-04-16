@@ -1,6 +1,6 @@
 function: dbg
 info: {}
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: dbg
 settings:
   dw: 0.1

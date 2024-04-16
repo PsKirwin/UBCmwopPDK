@@ -4,14 +4,14 @@ from gdsfactory.config import PATH as GPATH
 from gdsfactory.get_factories import get_cells
 from gdsfactory.pdk import Pdk
 
-from ubcpdk import components, data, tech
-from ubcpdk.config import CONFIG, PATH
-from ubcpdk.tech import LAYER, LAYER_STACK, LAYER_VIEWS, cross_sections
+from UBCmwopPDK import components, data, tech
+from UBCmwopPDK.config import CONFIG, PATH
+from UBCmwopPDK.tech import LAYER, LAYER_STACK, LAYER_VIEWS, cross_sections
 
 try:
     from gplugins.sax.models import get_models
 
-    from ubcpdk import models
+    from UBCmwopPDK import models
 
     models = get_models(models)
 except ImportError:
@@ -37,7 +37,7 @@ __all__ = [
 
 cells = get_cells(components)
 PDK = Pdk(
-    name="ubcpdk",
+    name="UBCmwopPDK",
     cells=cells,
     cross_sections=cross_sections,
     models=models,

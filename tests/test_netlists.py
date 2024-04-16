@@ -6,7 +6,7 @@ import pytest
 from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from ubcpdk import PDK
+from UBCmwopPDK import PDK
 
 cells = PDK.cells
 skip_test = {

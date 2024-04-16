@@ -4,6 +4,6 @@ info:
   model: ebeam_gc_te1310
   polarization: te
   wavelength: 1.31
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: gc_te1310
 settings: {}

@@ -2,12 +2,12 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 import sax
 
-import ubcpdk
-from ubcpdk import PDK
+import UBCmwopPDK
+from UBCmwopPDK import PDK
 
 
 def test_mzi():
-    c = ubcpdk.components.mzi(delta_length=20)
+    c = UBCmwopPDK.components.mzi(delta_length=20)
     netlist = c.get_netlist()
     models = PDK.models
     circuit, _ = sax.circuit(netlist, models=models)  # type: ignore
@@ -18,7 +18,7 @@ def test_mzi():
 
 
 if __name__ == "__main__":
-    c = ubcpdk.components.mzi(delta_length=20)
+    c = UBCmwopPDK.components.mzi(delta_length=20)
     netlist = c.get_netlist()
     models = PDK.models
     circuit, _ = sax.circuit(netlist, models=models)  # type: ignore

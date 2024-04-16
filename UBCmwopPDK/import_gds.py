@@ -5,8 +5,8 @@ from gdsfactory.component import Component
 from gdsfactory.typings import LayerSpec
 from numpy import arctan2, degrees, isclose, ndarray
 
-from ubcpdk.config import PATH
-from ubcpdk.tech import LAYER
+from UBCmwopPDK.config import PATH
+from UBCmwopPDK.tech import LAYER
 
 layer = LAYER.WG
 port_width = 0.5
@@ -191,7 +191,7 @@ def import_gc(gdspath, info=None, **kwargs):
 
 if __name__ == "__main__":
     # from gdsfactory.write_cells import get_import_gds_script
-    # script = get_import_gds_script(dirpath=PATH.gds, module="ubcpdk.components")
+    # script = get_import_gds_script(dirpath=PATH.gds, module="UBCmwopPDK.components")
     # print(script)
 
     # gdsname = "ebeam_crossing4.gds"

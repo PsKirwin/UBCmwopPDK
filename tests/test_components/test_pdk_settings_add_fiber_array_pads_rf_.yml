@@ -1,6 +1,6 @@
 function: add_fiber_array
 info: {}
-module: ubcpdk.components
+module: UBCmwopPDK.components
 name: add_fiber_array_add_fiber_array_35c727a6
 settings:
   component:

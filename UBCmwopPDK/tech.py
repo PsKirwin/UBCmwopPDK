@@ -15,7 +15,7 @@ from gdsfactory.technology import LayerLevel, LayerStack
 from gdsfactory.typings import Callable, Layer, LayerSpec, Optional
 from pydantic import BaseModel
 
-from ubcpdk.config import PATH
+from UBCmwopPDK.config import PATH
 
 nm = 1e-3
 pin_length = 10 * nm

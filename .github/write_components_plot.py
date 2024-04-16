@@ -1,7 +1,7 @@
 import inspect
 
-from ubcpdk import cells
-from ubcpdk.config import PATH
+from UBCmwopPDK import cells
+from UBCmwopPDK.config import PATH
 
 filepath = PATH.repo / "docs" / "components_plot.rst"
 
@@ -55,7 +55,7 @@ Cells
 {name}
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.{name}
+.. autofunction:: UBCmwopPDK.components.{name}
 
 """
             )
@@ -66,14 +66,14 @@ Cells
 {name}
 ----------------------------------------------------
 
-.. autofunction:: ubcpdk.components.{name}
+.. autofunction:: UBCmwopPDK.components.{name}
 
 .. plot::
   :include-source:
 
-  import ubcpdk
+  import UBCmwopPDK
 
-  c = ubcpdk.components.{name}({kwargs})
+  c = UBCmwopPDK.components.{name}({kwargs})
   c.plot()
 
 """

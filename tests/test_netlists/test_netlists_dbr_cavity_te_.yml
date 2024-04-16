@@ -12,7 +12,7 @@ instances:
         settings:
           component:
             function: dbr
-            module: ubcpdk.components
+            module: UBCmwopPDK.components
             settings:
               cross_section:
                 function: cross_section

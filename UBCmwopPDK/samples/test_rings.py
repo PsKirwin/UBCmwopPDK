@@ -3,14 +3,14 @@ from functools import partial
 
 import gdsfactory as gf
 
-import ubcpdk
-import ubcpdk.components as pdk
+import UBCmwopPDK
+import UBCmwopPDK.components as pdk
 
 size = (605, 410)
 pack = partial(
     gf.pack, max_size=size, add_ports_prefix=False, add_ports_suffix=False, spacing=2
 )
-add_gc = ubcpdk.components.add_fiber_array
+add_gc = UBCmwopPDK.components.add_fiber_array
 
 length_x = 0.1
 

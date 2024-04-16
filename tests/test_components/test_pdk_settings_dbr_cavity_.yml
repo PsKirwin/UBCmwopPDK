@@ -5,7 +5,7 @@ name: dbr_cavity_2afc46e9
 settings:
   component:
     function: dbr
-    module: ubcpdk.components
+    module: UBCmwopPDK.components
     settings:
       cross_section:
         function: cross_section

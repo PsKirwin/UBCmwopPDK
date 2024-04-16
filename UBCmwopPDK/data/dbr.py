@@ -1,4 +1,4 @@
-from ubcpdk.config import PATH
+from UBCmwopPDK.config import PATH
 
 dbrs = {
     filename.split("_")[3][8:].replace("Num", "_"): PATH.dbr / filename
