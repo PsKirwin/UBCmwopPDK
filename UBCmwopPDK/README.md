@@ -26,3 +26,7 @@ More details are also available in the PDF slides. The GDS Layout used in the ex
 ## DFM Design for manufacturing
 
 Each participant is allocated a rectangle of 605 µm (width) X 410 µm (height). You can use multiple blocks (see below for details).
+
+## For Developers
+### modifying the layermap:
+make the desired changes to the layermap in the file "layers.yaml". After that, run tech.py in the command line. This will transfer the contents of layers.yaml to the klayout .lyp file that stores the layer info. Then, run "install_tech.py", and click on the technology in klayout. If the changes aren't seen, restart klayout.

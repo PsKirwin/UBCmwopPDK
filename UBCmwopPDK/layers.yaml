@@ -1,47 +1,80 @@
 LayerViews:
   Silicon:
-    Waveguide:
-      layer: [1, 0]
-      layer_in_name: true
-      width: 1
-      color: "#ff9d9d"
-      hatch_pattern: dotted
-    Waveguide2:
-      layer: [31, 0]
-      layer_in_name: true
-      width: 1
-      color: "#ff9d9d"
-      hatch_pattern: dotted
-    SLAB150:
-      layer: [2, 0]
-      layer_in_name: true
-      transparent: true
-      width: 1
-      color: "cyan"
-      hatch_pattern: coarsely dotted
+    group_members:
+      Waveguide:
+        layer: [1, 0]
+        layer_in_name: true
+        width: 1
+        color: "#ff9d9d"
+        hatch_pattern: dotted
+      Waveguide_keepout:
+        layer: [1,2]
+        layer_in_name: true
+        width: 1
+        color: "#fe2f36"
+      Waveguide2:
+        layer: [31, 0]
+        layer_in_name: true
+        width: 1
+        color: "#ff9d9d"
+        hatch_pattern: dotted
+      SLAB150:
+        layer: [2, 0]
+        layer_in_name: true
+        transparent: true
+        width: 1
+        color: "cyan"
+        hatch_pattern: coarsely dotted
+  Superconductor:
+    group_members:
+      Trace:
+        layer: [70, 0]
+        layer_in_name: true
+        width: 1
+        color: "#f5f505"
+        hatch_pattern: coarsely dotted
+      Gap:
+        layer: [70, 1]
+        layer_in_name: true
+        width: 1
+        color: "#8d05f5"
+        hatch_pattern: dotted
+      Ground:
+        layer: [70, 2]
+        layer_in_name: true
+        width: 1
+        color: "#f5f505"
+        hatch_pattern: coarsely dotted
+      Liftoff:
+        layer: [70, 3]
+        layer_in_name: true
+        width: 1
+        color: "#42f57b"
+        hatch_pattern: coarsely dotted
   METAL:
-    M1_HEATER:
-      layer: [11, 0]
-      layer_in_name: true
-      color: "#ebc634"
-      hatch_pattern: hollow
-    M2_ROUTER:
-      layer: [12, 0]
-      layer_in_name: true
-      frame_color: "teal"
-      fill_color: "#800057"
-      hatch_pattern: dotted
-    M_Open:
-      layer: [13, 0]
-      layer_in_name: true
-      color: "black"
-      hatch_pattern: hollow
-    MH:
-      layer: [47, 0]
-      layer_in_name: true
-      transparent: true
-      width: 1
-      color: "#ff8000"
+    group_members:
+      M1_HEATER:
+        layer: [11, 0]
+        layer_in_name: true
+        color: "#ebc634"
+        hatch_pattern: hollow
+      M2_ROUTER:
+        layer: [12, 0]
+        layer_in_name: true
+        frame_color: "teal"
+        fill_color: "#800057"
+        hatch_pattern: dotted
+      M_Open:
+        layer: [13, 0]
+        layer_in_name: true
+        color: "black"
+        hatch_pattern: hollow
+      MH:
+        layer: [47, 0]
+        layer_in_name: true
+        transparent: true
+        width: 1
+        color: "#ff8000"
   DEEPTRENCH:
     layer: [4, 0]
     layer_in_name: true
@@ -76,8 +109,9 @@ LayerViews:
   FLOORPLAN:
     layer: [99, 0]
     layer_in_name: true
-    color: "black"
+    color: "#8000ff"
     hatch_pattern: hollow
+    width: 3
   Lumerical:
     layer: [733, 0]
     width: 3
