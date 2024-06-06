@@ -1,5 +1,6 @@
 """Data analysis module."""
 
+
 from .chop import chop
 from .find_bandwidth import find_bandwidth
 from .read_mat import read_mat

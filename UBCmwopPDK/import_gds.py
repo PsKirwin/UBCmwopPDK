@@ -32,7 +32,7 @@ def guess_port_orientaton(position: ndarray, name: str, label: str, n: int) -> i
 
 
 def remove_pins(component) -> Component:
-    """Remove pins."""
+    """Remove PINS."""
     component.remove_layers(layers=(LAYER.DEVREC, LAYER.PORT, LAYER.PORTE))
     component.paths = []
     component._bb_valid = False
@@ -46,6 +46,33 @@ def remove_pins_recursive(component):
             rcell = ref.parent
             ref.parent = remove_pins_recursive(rcell)
     return component
+
+
+def add_ports(component: Component) -> Component:
+    """Add ports from labels.
+
+    guess port orientaton from port location.
+    """
+    c = component
+    n = sum(bool(label.text.startswith("opt")) for label in c.get_labels())
+    for label in c.get_labels():
+        if label.text.startswith("opt"):
+            port_name = label.text
+            port = gf.Port(
+                name=port_name,
+                midpoint=label.position,
+                width=port_width,
+                orientation=guess_port_orientaton(
+                    position=label.position,
+                    name=c.name,
+                    label=label.text,
+                    n=n,
+                ),
+                layer=layer,
+            )
+            if port_name not in c.ports:
+                c.add_port(port)
+        return c
 
 
 def add_ports_from_siepic_pins(
@@ -155,7 +182,6 @@ def import_gds(gdspath, **kwargs):
 
 @cache
 def import_gc(gdspath, info=None, **kwargs):
-    """Import grating coupler GDS file and add ports to it."""
     c = import_gds(gdspath, **kwargs)
 
     if info is not None:

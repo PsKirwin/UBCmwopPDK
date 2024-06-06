@@ -4,7 +4,6 @@
 - cross_sections (xs_)
 - constants (WIDTH, CLADDING_OFFSET ...)
 """
-
 import sys
 from functools import partial
 

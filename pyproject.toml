@@ -15,8 +15,8 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "gdsfactory~=7.26.1",
-  "gplugins[tidy3d,sax,schematic]>=0.13,<0.14"
+  "gdsfactory==7.23.0",
+  "gplugins[tidy3d,sax,schematic]>=0.12,<0.13"
 ]
 description = "UBCmwopPDK pdk"
 keywords = ["python"]
@@ -38,9 +38,6 @@ docs = [
   "jupytext",
   "jupyter-book==0.15.1"
 ]
-
-[tool.codespell]
-ignore-words-list = "te, te/tm, te, ba, fpr, fpr_spacing, ro, nd, donot, schem"
 
 [tool.mypy]
 python_version = "3.10"

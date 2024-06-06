@@ -49,14 +49,13 @@ def test_netlists(
         component_factory: component factory.
     """
     c = component_factory[component_type]()
-    allow_multiple = True
-    n = c.get_netlist(allow_multiple=allow_multiple)
+    n = c.get_netlist()
     if check:
         data_regression.check(n)
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = gf.read.from_yaml(yaml_str, name=c.name)
-    n2 = c2.get_netlist(allow_multiple=allow_multiple)
+    n2 = c2.get_netlist()
 
     d = jsondiff.diff(n, n2)
     assert len(d) == 0, d
