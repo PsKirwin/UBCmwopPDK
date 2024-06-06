@@ -1,4 +1,5 @@
 """Cells imported from the PDK."""
+
 from functools import cache, partial
 
 import gdsfactory as gf
@@ -236,7 +237,7 @@ def gc_te1310() -> gf.Component:
     name = prefix_te1310
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -256,7 +257,7 @@ def gc_te1310_8deg() -> gf.Component:
     name = prefix_te1310
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -276,7 +277,7 @@ def gc_te1310_broadband() -> gf.Component:
     name = prefix_te1310
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -296,7 +297,7 @@ def gc_te1550() -> gf.Component:
     name = prefix_te1550
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -316,7 +317,7 @@ def gc_te1550_90nmSlab() -> gf.Component:
     name = prefix_te1550
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -336,7 +337,7 @@ def gc_te1550_broadband() -> gf.Component:
     name = prefix_te1550
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_te",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -356,7 +357,7 @@ def gc_tm1550() -> gf.Component:
     name = prefix_tm1550
     c.add_port(
         name=name,
-        port_type=name,
+        port_type="vertical_tm",
         center=(25, 0),
         layer=(1, 0),
         width=9,
@@ -513,7 +514,6 @@ def add_fiber_array(
     ref.rotate(-90)
     c.add_ports(ref.ports)
     c.copy_child_info(component)
-
     return c
 
 
@@ -815,6 +815,7 @@ def add_pads(
 
 if __name__ == "__main__":
     c = straight_heater_metal()
+    c.pprint_ports()
     # c.pprint_ports()
     # c = straight()
     # c = uc.ring_single_heater()
@@ -823,7 +824,7 @@ if __name__ == "__main__":
     # c = ring_double(length_y=10)
     # c = ring_with_crossing()
     # c = mmi1x2()
-    # c = add_fiber_array(mzi)
+    c = add_fiber_array(straight_heater_metal)
     # c = coupler_ring()
     # c = dbr_cavity_te()
     # c = dbr_cavity()
@@ -839,4 +840,5 @@ if __name__ == "__main__":
     # c = ebeam_dc_halfring_straight()
     # c = ring_with_crossing()
     # c = ring_single()
+    c.pprint_ports()
     c.show(show_ports=False)
