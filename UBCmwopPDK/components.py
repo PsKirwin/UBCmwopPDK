@@ -723,6 +723,8 @@ def supercon_CPW_resonator_IDC(
         gap_layer: can change to arbitrary layer
 
     author: Phillip Kirwin (pkirwin@ece.ubc.ca)
+
+    author: Phillip Kirwin (pkirwin@ece.ubc.ca)
     """
     import numpy as np
 
@@ -850,7 +852,7 @@ def supercon_wire_resonator_IDC(
 
     Args:
         coupler_spec: dict that contains parameters for the IDC coupler
-        length: length of the resonator in um
+        lengths: array of side lengths of the resonator in um
         bend_type: "circular" (default) or "euler"
         bend_radius: bend radius, for euler bends this is the
         cross_section: CrossSectionSpec for the wire
@@ -884,7 +886,9 @@ def supercon_wire_resonator_IDC(
         p=gf.path.straight(length=stub1_length), width=10, layer=trace_layer
     )
     stub2 = gf.path.extrude(
-        p=gf.path.straight(length=stub2_length), width=2, layer=trace_layer
+        p=gf.path.straight(length=stub2_length),
+        width=cross_section.width,
+        layer=trace_layer,
     )
 
     IDCwithstubs = gf.Component("IDCwithstubs", with_uuid=False)
@@ -962,6 +966,86 @@ def supercon_wire_resonator_IDC(
     res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
     c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
 
+    return c
+
+
+@gf.cell
+def ring_single_mod_coupler(
+    gap: float = 0.2,
+    radius: float = 10.0,
+    length_x: float = 4.0,
+    length_y: float = 0.6,
+    bend: Component = bend,
+    bend_coupler: Component | None = bend,
+    straight: Component = straight,
+    cross_section: CrossSectionSpec = "xs_sc",
+    pass_cross_section_to_bend: bool = True,
+) -> gf.Component:
+    """Returns a single-bus ring. Based on the ring_single cell from the generic
+    PDK, but adds parameters for making the length and position of the coupler different
+    from the x-side length of the ring.
+
+    Args:
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        bend: 90 degrees bend spec.
+        bend_coupler: optional bend for coupler.
+        straight: straight spec.
+        cross_section: cross_section spec.
+        pass_cross_section_to_bend: pass cross_section to bend.
+
+    author: Phillip Kirwin (pkirwin@ece.ubc.ca)
+    """
+    gap = gf.snap.snap_to_grid2x(gap)
+
+    xs = gf.get_cross_section(cross_section)
+    radius = radius or xs.radius
+    cross_section = xs.copy(radius=radius)
+
+    bend_coupler = bend_coupler or bend
+
+    c = gf.Component()
+    cb = c << coupler_ring(
+        bend=bend_coupler,
+        gap=gap,
+        radius=radius,
+        length_x=length_x,
+        cross_section=cross_section,
+    )
+    sy = straight(length=length_y, cross_section=cross_section)
+    b = (
+        bend(cross_section=cross_section)
+        if pass_cross_section_to_bend
+        else bend(radius=radius)
+    )
+    sx = straight(length=length_x, cross_section=cross_section)
+
+    sl = sy.ref()
+    sr = sy.ref()
+    st = sx.ref()
+
+    if length_y > 0:
+        c.add(sl)
+        c.add(sr)
+
+    if length_x > 0:
+        c.add(st)
+
+    bl = c << b
+    br = c << b
+
+    sl.connect(port="o1", destination=cb.ports["o2"])
+    bl.connect(port="o2", destination=sl.ports["o2"])
+
+    st.connect(port="o2", destination=bl.ports["o1"])
+    br.connect(port="o2", destination=st.ports["o1"])
+    sr.connect(port="o1", destination=br.ports["o1"])
+    sr.connect(port="o2", destination=cb.ports["o3"])
+
+    c.add_port("o2", port=cb.ports["o4"])
+    c.add_port("o1", port=cb.ports["o1"])
     return c
 
 
