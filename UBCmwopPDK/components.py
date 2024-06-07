@@ -689,6 +689,145 @@ def ebeam_dc_halfring_straight(
     return c
 
 
+@gf.cell
+@gf.cell
+def supercon_CPW_resonator_IDC(
+    coupler_spec: dict = None,
+    length: float = 5000,  # length in [um]
+    cross_section: CrossSectionSpec = gf.CrossSection(
+        sections=[
+            gf.Section(width=2, offset=0, layer=(70, 0), port_names=("in", "out")),
+            gf.Section(width=10, offset=6, layer=(70, 1)),
+            gf.Section(width=10, offset=-6, layer=(70, 1)),
+        ]
+    ),
+    cap_cross_section: CrossSectionSpec = gf.CrossSection(
+        sections=[
+            gf.Section(width=2, offset=0, layer=(70, 1), port_names=("in", "out")),
+            gf.Section(width=10, offset=6, layer=(70, 1)),
+            gf.Section(width=10, offset=-6, layer=(70, 1)),
+        ]
+    ),
+    label: str = None,
+    trace_layer=(70, 0),
+    gap_layer=(70, 1),
+) -> gf.Component:
+    """Returns a superconducting CPW resonator with an interdigital capacitor at the end.
+
+    Args:
+        coupler_spec: dict that contains parameters for the IDC coupler
+        length: length of the resonator in um
+        cross_section: CrossSectionSpec for the CPW
+        cross_section: CrossSectionSpec for the CPW end cap (default is a open-circuit end, can change if you want a short circuit)
+        label: drawn label to be patterned for identification. If left blank, no label will be drawn
+        trace_layer: can change to arbitrary layer
+        gap_layer: can change to arbitrary layer
+    """
+    import numpy as np
+
+    if coupler_spec is None:
+        coupler_spec = dict(
+            fingers=10, finger_length=100, finger_gap=5, thickness=10, layer=(70, 0)
+        )
+
+    IDC = gf.components.interdigital_capacitor(
+        fingers=coupler_spec["fingers"],
+        finger_length=coupler_spec["finger_length"],
+        finger_gap=coupler_spec["finger_gap"],
+        thickness=coupler_spec["thickness"],
+        layer=coupler_spec["layer"],
+    )
+    fingers = IDC.get_setting("fingers")
+    finger_length = IDC.get_setting("finger_length")
+    finger_gap = IDC.get_setting("finger_gap")
+    thickness = IDC.get_setting("thickness")
+    stub1_length = np.max([3 * thickness, 30])
+    stub2_length = np.max([3 * thickness, 10])
+    stub1 = gf.path.extrude(
+        p=gf.path.straight(length=stub1_length), width=10, layer=trace_layer
+    )
+    stub2 = gf.path.extrude(
+        p=gf.path.straight(length=stub2_length), width=2, layer=trace_layer
+    )
+
+    IDCwithstubs = gf.Component("IDCwithstubs", with_uuid=False)
+    IDC_ref = IDCwithstubs << IDC
+    stub1_ref = IDCwithstubs << stub1
+    stub2_ref = IDCwithstubs << stub2
+    IDC_ref.connect("o1", stub1.ports["o2"])
+    stub2_ref.connect("o1", IDC_ref.ports["o2"])
+
+    xsize = finger_length + finger_gap + 2 * thickness + stub1_length + stub2_length
+    ysize = fingers * thickness + (fingers - 1) * finger_gap + 20
+    keepout_box = gf.components.rectangle(size=(xsize, ysize), layer=trace_layer)
+
+    temp = gf.Component("temp")
+    keepout_box_ref = temp << keepout_box
+    keepout_box_ref.movey(-ysize / 2)
+    keepout_gap = gf.geometry.boolean(
+        B=IDCwithstubs,
+        A=keepout_box_ref,
+        operation="not",
+        precision=1e-6,
+        layer=gap_layer,
+    )
+    _keepout_gap_ref = IDCwithstubs << keepout_gap
+
+    IDCwithstubs.add_port("o1", port=stub1_ref.ports["o1"])
+    IDCwithstubs.add_port("o2", port=stub2_ref.ports["o2"])
+
+    # resonator meander
+    bend_radius = 100
+    extra_length = 150  # additional length added to start of meander
+    remainder_length = (
+        length - (2 * np.pi * bend_radius + extra_length)
+    ) / 3  # length of each of the straight sections
+    res_path = gf.Path()
+    left_turn = gf.path.arc(radius=bend_radius, angle=90)
+    right_turn = gf.path.arc(radius=bend_radius, angle=-90)
+    straight = gf.path.straight(length=remainder_length)  # 1322.22721173
+    straight2 = gf.path.straight(length=extra_length)
+    res_path.append(
+        [
+            straight2,
+            straight,
+            right_turn,
+            right_turn,
+            straight,
+            left_turn,
+            left_turn,
+            straight,
+        ]
+    )
+    res = gf.path.extrude(p=res_path, cross_section=cross_section)
+    print(res_path.length())
+
+    # resonator cap (to make it an open-circuit at the end)
+    cap = gf.path.extrude(
+        p=gf.path.straight(length=10), cross_section=cap_cross_section
+    )
+
+    # text label
+    if label is not None:
+        cellname = label + "_" + str(int(length)) + "um"
+        label = gf.components.text(text=cellname, size=30, layer=gap_layer)
+    else:
+        cellname = "Res_" + str(int(length)) + "um"
+        label = gf.components.text(text="", size=30, layer=gap_layer)
+    # putting in parent cell
+    c = gf.Component(cellname)
+    IDCwithstubs_ref = c << IDCwithstubs
+    res_ref = c << res
+    cap_ref = c << cap
+    label_ref = c << label
+    label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
+    res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
+    cap_ref.connect("in", res_ref.ports["out"])
+    c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
+
+    return c
+
+
 ring_single = partial(
     gf.components.ring_single,
     coupler_ring=coupler_ring,
