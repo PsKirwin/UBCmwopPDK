@@ -690,7 +690,6 @@ def ebeam_dc_halfring_straight(
 
 
 @gf.cell
-@gf.cell
 def supercon_CPW_resonator_IDC(
     coupler_spec: dict = None,
     length: float = 5000,  # length in [um]
@@ -722,6 +721,8 @@ def supercon_CPW_resonator_IDC(
         label: drawn label to be patterned for identification. If left blank, no label will be drawn
         trace_layer: can change to arbitrary layer
         gap_layer: can change to arbitrary layer
+
+    author: Phillip Kirwin (pkirwin@ece.ubc.ca)
     """
     import numpy as np
 
@@ -823,6 +824,142 @@ def supercon_CPW_resonator_IDC(
     label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
     res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
     cap_ref.connect("in", res_ref.ports["out"])
+    c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
+
+    return c
+
+
+@gf.cell
+def supercon_wire_resonator_IDC(
+    coupler_spec: dict = None,
+    lengths: float = [700, 1000, 1000, 500],  # length in [um]
+    bend_type: str = "circular",  # or euler
+    bend_radius: float = 100,  # [um]
+    cross_section: CrossSectionSpec = gf.CrossSection(
+        sections=[
+            gf.Section(width=1, offset=0, layer=(70, 0), port_names=("in", "out")),
+        ]
+    ),
+    label: str = None,
+    trace_layer=(70, 0),
+    gap_layer=(70, 1),
+) -> gf.Component:
+    """Returns a superconducting wire resonator with an interdigital capacitor at the end.
+    Note that a ground plane will need to be defined separately.
+    The bends are specifically
+
+    Args:
+        coupler_spec: dict that contains parameters for the IDC coupler
+        length: length of the resonator in um
+        bend_type: "circular" (default) or "euler"
+        bend_radius: bend radius, for euler bends this is the
+        cross_section: CrossSectionSpec for the wire
+        label: drawn label to be patterned for identification. If left blank, no label will be drawn
+        trace_layer: can change to arbitrary layer
+        gap_layer: can change to arbitrary layer
+
+    author: Phillip Kirwin (pkirwin@ece.ubc.ca)
+    """
+    import numpy as np
+
+    if coupler_spec is None:
+        coupler_spec = dict(
+            fingers=10, finger_length=100, finger_gap=5, thickness=10, layer=(70, 0)
+        )
+
+    IDC = gf.components.interdigital_capacitor(
+        fingers=coupler_spec["fingers"],
+        finger_length=coupler_spec["finger_length"],
+        finger_gap=coupler_spec["finger_gap"],
+        thickness=coupler_spec["thickness"],
+        layer=coupler_spec["layer"],
+    )
+    fingers = IDC.get_setting("fingers")
+    finger_length = IDC.get_setting("finger_length")
+    finger_gap = IDC.get_setting("finger_gap")
+    thickness = IDC.get_setting("thickness")
+    stub1_length = np.max([3 * thickness, 30])
+    stub2_length = np.max([3 * thickness, 10])
+    stub1 = gf.path.extrude(
+        p=gf.path.straight(length=stub1_length), width=10, layer=trace_layer
+    )
+    stub2 = gf.path.extrude(
+        p=gf.path.straight(length=stub2_length), width=2, layer=trace_layer
+    )
+
+    IDCwithstubs = gf.Component("IDCwithstubs", with_uuid=False)
+    IDC_ref = IDCwithstubs << IDC
+    stub1_ref = IDCwithstubs << stub1
+    stub2_ref = IDCwithstubs << stub2
+    IDC_ref.connect("o1", stub1.ports["o2"])
+    stub2_ref.connect("o1", IDC_ref.ports["o2"])
+
+    xsize = finger_length + finger_gap + 2 * thickness + stub1_length + stub2_length
+    ysize = fingers * thickness + (fingers - 1) * finger_gap + 20
+    keepout_box = gf.components.rectangle(size=(xsize, ysize), layer=trace_layer)
+
+    temp = gf.Component("temp")
+    keepout_box_ref = temp << keepout_box
+    keepout_box_ref.movey(-ysize / 2)
+    keepout_gap = gf.geometry.boolean(
+        B=IDCwithstubs,
+        A=keepout_box_ref,
+        operation="not",
+        precision=1e-6,
+        layer=gap_layer,
+    )
+    _keepout_gap_ref = IDCwithstubs << keepout_gap
+
+    IDCwithstubs.add_port("o1", port=stub1_ref.ports["o1"])
+    IDCwithstubs.add_port("o2", port=stub2_ref.ports["o2"])
+
+    # resonator path and extrude
+    # extra_length = 20  # additional length added to start of meander
+
+    if bend_type == "circular":
+        left_turn = gf.path.arc(radius=bend_radius, angle=90)
+        right_turn = gf.path.arc(radius=bend_radius, angle=-90)
+    elif bend_type == "euler":
+        left_turn = gf.path.euler(radius=bend_radius, angle=90, use_eff=True)
+        right_turn = gf.path.euler(radius=bend_radius, angle=-90, use_eff=True)
+    else:
+        raise Exception('bend type must be "circular" or "euler"')
+
+    north_straight = gf.path.straight(length=lengths[0])
+    east_straight = gf.path.straight(length=lengths[1])
+    south_straight = gf.path.straight(length=lengths[2])
+    west_straight = gf.path.straight(length=lengths[3])
+
+    res_path = gf.Path()
+    res_path.append(
+        [
+            left_turn,
+            north_straight,
+            right_turn,
+            east_straight,
+            right_turn,
+            south_straight,
+            right_turn,
+            west_straight,
+        ]
+    )
+    res = gf.path.extrude(p=res_path, cross_section=cross_section)
+    length_total = res_path.length()
+    print(length_total)
+    # text label
+    if label is not None:
+        cellname = label + "_" + str(int(length_total)) + "um"
+        label = gf.components.text(text=cellname, size=30, layer=gap_layer)
+    else:
+        cellname = "Res_" + str(int(length_total)) + "um"
+        label = gf.components.text(text="", size=30, layer=gap_layer)
+    # putting in parent cell
+    c = gf.Component(cellname)
+    IDCwithstubs_ref = c << IDCwithstubs
+    res_ref = c << res
+    label_ref = c << label
+    label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
+    res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
     c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
 
     return c

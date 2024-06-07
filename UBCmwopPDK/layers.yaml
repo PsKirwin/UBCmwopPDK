@@ -31,7 +31,7 @@ LayerViews:
         layer: [70, 0]
         layer_in_name: true
         width: 1
-        color: "#f5f505"
+        color: "#0aa64d"
         hatch_pattern: coarsely dotted
       Gap:
         layer: [70, 1]
