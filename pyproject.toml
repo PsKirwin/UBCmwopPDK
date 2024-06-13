@@ -15,7 +15,7 @@ requires = ["flit_core >=3.2,<4"]
 
 [project]
 authors = [
-  {name = "gdsfactory", email = "contact@gdsfactory.com"}
+  {name = "Phillip Kirwin", email = "pkirwin@ece.ubc.ca"}
 ]
 classifiers = [
   "License :: OSI Approved :: MIT License",
@@ -33,7 +33,7 @@ license = {file = "LICENSE"}
 name = "UBCmwopPDK"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "2.5.0"
+version = "1.0.0"
 
 [project.optional-dependencies]
 dev = [

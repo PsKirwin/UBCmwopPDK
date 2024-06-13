@@ -29,6 +29,10 @@ class LayerMapUbc(BaseModel):
     M2_ROUTER: Layer = (12, 0)
     MTOP: Layer = (12, 0)
     PAD_OPEN: Layer = (13, 0)
+    SC_TRACE: Layer = (70, 0)
+    SC_GAP: Layer = (70, 1)
+    SC_GND: Layer = (70, 2)
+    SC_LIFTOFF: Layer = (70, 3)
 
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)  # PinRec
@@ -324,6 +328,35 @@ metal_routing = partial(
     port_types=gf.cross_section.port_types_electrical,
     radius=None,
 )
+
+supercon_wire = partial(
+    cross_section,
+    layer=LAYER.SC_TRACE,
+    width=1.0,
+    port_names=gf.cross_section.port_names_electrical,
+    port_types=gf.cross_section.port_types_electrical,
+    radius=100,
+)
+
+supercon_CPW = partial(
+    cross_section,
+    width=2,
+    layer=LAYER.SC_TRACE,
+    sections=[
+        gf.Section(width=10, offset=6, layer=LAYER.SC_GAP),
+        gf.Section(width=10, offset=-6, layer=LAYER.SC_GAP),
+    ],
+    port_names=gf.cross_section.port_names_electrical,
+    port_types=gf.cross_section.port_types_electrical,
+    radius=100,
+)
+
+supercon_CPW_cap = partial(
+    supercon_CPW,
+    layer=LAYER.SC_GAP,
+)
+
+
 heater_metal = partial(metal_routing, width=4, layer=LAYER.M1_HEATER)
 
 ############################
@@ -338,6 +371,9 @@ xs_heater_metal = heater_metal()
 xs_sc_unclad = strip_unclad()
 xs_sc_simple = strip_simple()
 xs_sc_devrec = strip(cladding_layers=("DEVREC",), cladding_offsets=(0.5,))
+xs_supercon_wire = supercon_wire()
+xs_supercon_CPW = supercon_CPW()
+xs_supercon_CPW_cap = supercon_CPW_cap()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 

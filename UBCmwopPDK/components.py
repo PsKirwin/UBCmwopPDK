@@ -3,6 +3,7 @@
 from functools import cache, partial
 
 import gdsfactory as gf
+import numpy as np
 from gdsfactory import Component
 from gdsfactory.typings import (
     Callable,
@@ -693,23 +694,11 @@ def ebeam_dc_halfring_straight(
 def supercon_CPW_resonator_IDC(
     coupler_spec: dict = None,
     length: float = 5000,  # length in [um]
-    cross_section: CrossSectionSpec = gf.CrossSection(
-        sections=[
-            gf.Section(width=2, offset=0, layer=(70, 0), port_names=("in", "out")),
-            gf.Section(width=10, offset=6, layer=(70, 1)),
-            gf.Section(width=10, offset=-6, layer=(70, 1)),
-        ]
-    ),
-    cap_cross_section: CrossSectionSpec = gf.CrossSection(
-        sections=[
-            gf.Section(width=2, offset=0, layer=(70, 1), port_names=("in", "out")),
-            gf.Section(width=10, offset=6, layer=(70, 1)),
-            gf.Section(width=10, offset=-6, layer=(70, 1)),
-        ]
-    ),
+    cross_section: CrossSectionSpec = "xs_supercon_CPW",
+    cap_cross_section: CrossSectionSpec = "xs_supercon_CPW_cap",
     label: str = None,
-    trace_layer=(70, 0),
-    gap_layer=(70, 1),
+    trace_layer=LAYER.SC_TRACE,
+    gap_layer=LAYER.SC_GAP,
 ) -> gf.Component:
     """Returns a superconducting CPW resonator with an interdigital capacitor at the end.
 
@@ -723,10 +712,8 @@ def supercon_CPW_resonator_IDC(
         gap_layer: can change to arbitrary layer
 
     author: Phillip Kirwin (pkirwin@ece.ubc.ca)
-
-    author: Phillip Kirwin (pkirwin@ece.ubc.ca)
     """
-    import numpy as np
+    cross_section = gf.get_cross_section(cross_section)
 
     if coupler_spec is None:
         coupler_spec = dict(
@@ -747,10 +734,14 @@ def supercon_CPW_resonator_IDC(
     stub1_length = np.max([3 * thickness, 30])
     stub2_length = np.max([3 * thickness, 10])
     stub1 = gf.path.extrude(
-        p=gf.path.straight(length=stub1_length), width=10, layer=trace_layer
+        p=gf.path.straight(length=stub1_length),
+        width=5 * cross_section.width,
+        layer=trace_layer,
     )
     stub2 = gf.path.extrude(
-        p=gf.path.straight(length=stub2_length), width=2, layer=trace_layer
+        p=gf.path.straight(length=stub2_length),
+        width=cross_section.width,
+        layer=trace_layer,
     )
 
     IDCwithstubs = gf.Component("IDCwithstubs", with_uuid=False)
@@ -824,9 +815,10 @@ def supercon_CPW_resonator_IDC(
     cap_ref = c << cap
     label_ref = c << label
     label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
-    res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
-    cap_ref.connect("in", res_ref.ports["out"])
-    c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
+    res_ref.connect("e1", IDCwithstubs_ref.ports["o2"])
+    cap_ref.connect("e1", res_ref.ports["e2"])
+
+    c.add_port("e1", port=IDCwithstubs_ref.ports["o1"])
 
     return c
 
@@ -835,38 +827,45 @@ def supercon_CPW_resonator_IDC(
 def supercon_wire_resonator_IDC(
     coupler_spec: dict = None,
     lengths: float = [700, 1000, 1000, 500],  # length in [um]
-    bend_type: str = "circular",  # or euler
+    bend: gf.Path = gf.path.euler,
     bend_radius: float = 100,  # [um]
-    cross_section: CrossSectionSpec = gf.CrossSection(
-        sections=[
-            gf.Section(width=1, offset=0, layer=(70, 0), port_names=("in", "out")),
-        ]
-    ),
+    wire_path: gf.Path = None,
+    cross_section: CrossSectionSpec = "xs_supercon_wire",
     label: str = None,
-    trace_layer=(70, 0),
-    gap_layer=(70, 1),
+    trace_layer=LAYER.SC_TRACE,
+    gap_layer=LAYER.SC_GAP,
+    pass_cross_section_to_bend: bool = True,
 ) -> gf.Component:
     """Returns a superconducting wire resonator with an interdigital capacitor at the end.
-    Note that a ground plane will need to be defined separately.
-    The bends are specifically
+    Note that a ground plane will need to be defined separately. wire_path can be used
+    to specify an arbitrary path for the wire to take. Otherwise, the wire will take
+    the default path, which was originally intended for wrapping around an optical racetrack.
 
     Args:
         coupler_spec: dict that contains parameters for the IDC coupler
         lengths: array of side lengths of the resonator in um
-        bend_type: "circular" (default) or "euler"
-        bend_radius: bend radius, for euler bends this is the
+        bend: bend spec. Path object.
+        bend_radius: bend radius
+        wire_path: arbitrary path for the resonator to take.
         cross_section: CrossSectionSpec for the wire
         label: drawn label to be patterned for identification. If left blank, no label will be drawn
         trace_layer: can change to arbitrary layer
         gap_layer: can change to arbitrary layer
+        pass_cross_section_to_bend: pass cross_section to bend. defaults to True
 
     author: Phillip Kirwin (pkirwin@ece.ubc.ca)
     """
-    import numpy as np
+    xs = gf.get_cross_section(cross_section)
+    bend_radius = bend_radius or xs.radius
+    cross_section = xs.copy(radius=bend_radius)
 
     if coupler_spec is None:
         coupler_spec = dict(
-            fingers=10, finger_length=100, finger_gap=5, thickness=10, layer=(70, 0)
+            fingers=10,
+            finger_length=100,
+            finger_gap=5,
+            thickness=10,
+            layer=LAYER.SC_TRACE,
         )
 
     IDC = gf.components.interdigital_capacitor(
@@ -883,7 +882,9 @@ def supercon_wire_resonator_IDC(
     stub1_length = np.max([3 * thickness, 30])
     stub2_length = np.max([3 * thickness, 10])
     stub1 = gf.path.extrude(
-        p=gf.path.straight(length=stub1_length), width=10, layer=trace_layer
+        p=gf.path.straight(length=stub1_length),
+        width=5 * cross_section.width,
+        layer=trace_layer,
     )
     stub2 = gf.path.extrude(
         p=gf.path.straight(length=stub2_length),
@@ -918,17 +919,15 @@ def supercon_wire_resonator_IDC(
     IDCwithstubs.add_port("o2", port=stub2_ref.ports["o2"])
 
     # resonator path and extrude
-    # extra_length = 20  # additional length added to start of meander
 
-    if bend_type == "circular":
-        left_turn = gf.path.arc(radius=bend_radius, angle=90)
-        right_turn = gf.path.arc(radius=bend_radius, angle=-90)
-    elif bend_type == "euler":
-        left_turn = gf.path.euler(radius=bend_radius, angle=90, use_eff=True)
-        right_turn = gf.path.euler(radius=bend_radius, angle=-90, use_eff=True)
-    else:
-        raise Exception('bend type must be "circular" or "euler"')
-
+    bend = (
+        partial(
+            bend,
+            radius=cross_section.radius,
+        )
+        if pass_cross_section_to_bend
+        else partial(bend, radius=bend_radius)
+    )
     north_straight = gf.path.straight(length=lengths[0])
     east_straight = gf.path.straight(length=lengths[1])
     south_straight = gf.path.straight(length=lengths[2])
@@ -937,16 +936,17 @@ def supercon_wire_resonator_IDC(
     res_path = gf.Path()
     res_path.append(
         [
-            left_turn,
+            bend(angle=90),
             north_straight,
-            right_turn,
+            bend(angle=-90),
             east_straight,
-            right_turn,
+            bend(angle=-90),
             south_straight,
-            right_turn,
+            bend(angle=-90),
             west_straight,
         ]
     )
+    res_path = wire_path or res_path
     res = gf.path.extrude(p=res_path, cross_section=cross_section)
     length_total = res_path.length()
     print(length_total)
@@ -963,9 +963,11 @@ def supercon_wire_resonator_IDC(
     res_ref = c << res
     label_ref = c << label
     label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
-    res_ref.connect("in", IDCwithstubs_ref.ports["o2"])
-    c.add_port("in", port=IDCwithstubs_ref.ports["o1"])
+    res_ref.connect("e1", IDCwithstubs_ref.ports["o2"])
 
+    c.add_port("e1", port=IDCwithstubs_ref.ports["o1"])
+
+    c.info["coupler_length"] = float(xsize)
     return c
 
 
@@ -975,8 +977,11 @@ def ring_single_mod_coupler(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    bend: Component = bend,
-    bend_coupler: Component | None = bend,
+    bend: Component = gf.components.bend_euler,
+    bend_coupler: Component = None,
+    length_coupler: float = 4.0,
+    offset_coupler: float = 0.0,
+    radius_coupler: float = 10,
     straight: Component = straight,
     cross_section: CrossSectionSpec = "xs_sc",
     pass_cross_section_to_bend: bool = True,
@@ -987,14 +992,18 @@ def ring_single_mod_coupler(
 
     Args:
         gap: gap between for coupler.
-        radius: for the bend and coupler.
+        radius: for the bends in the ring.
         length_x: ring coupler length.
         length_y: vertical straight length.
         bend: 90 degrees bend spec.
-        bend_coupler: optional bend for coupler.
+        bend_coupler: optional bend for coupler
+        length_coupler: straight length of ring
+        offset_coupler: offset of coupler from the bottom left
+        radius_coupler: optional coupler radius.
         straight: straight spec.
         cross_section: cross_section spec.
         pass_cross_section_to_bend: pass cross_section to bend.
+
 
     author: Phillip Kirwin (pkirwin@ece.ubc.ca)
     """
@@ -1005,26 +1014,39 @@ def ring_single_mod_coupler(
     cross_section = xs.copy(radius=radius)
 
     bend_coupler = bend_coupler or bend
+    radius_coupler = radius_coupler or radius
+    cross_section_coupler = xs.copy(radius=radius_coupler)
 
     c = gf.Component()
-    cb = c << coupler_ring(
-        bend=bend_coupler,
-        gap=gap,
-        radius=radius,
-        length_x=length_x,
-        cross_section=cross_section,
+
+    # coupler
+    cs = straight(length=length_coupler, cross_section=cross_section)
+    bc = (
+        bend_coupler(cross_section=cross_section_coupler)
+        if pass_cross_section_to_bend
+        else bend_coupler(radius=radius_coupler)
     )
+
+    cs_ref = cs.ref()
+    if length_coupler > 0:
+        c.add(cs_ref)
+    bcl = c << bc
+    bcr = c << bc
+    bcl.connect(port="o1", destination=cs_ref.ports["o1"])
+    bcr.connect(port="o2", destination=cs_ref.ports["o2"])
+
+    # ring
     sy = straight(length=length_y, cross_section=cross_section)
+    sx = straight(length=length_x, cross_section=cross_section)
     b = (
         bend(cross_section=cross_section)
         if pass_cross_section_to_bend
         else bend(radius=radius)
     )
-    sx = straight(length=length_x, cross_section=cross_section)
-
     sl = sy.ref()
     sr = sy.ref()
     st = sx.ref()
+    sb = sx.ref()
 
     if length_y > 0:
         c.add(sl)
@@ -1032,20 +1054,153 @@ def ring_single_mod_coupler(
 
     if length_x > 0:
         c.add(st)
+        c.add(sb)
 
-    bl = c << b
-    br = c << b
+    bul = c << b
+    bll = c << b
+    bur = c << b
+    blr = c << b
 
-    sl.connect(port="o1", destination=cb.ports["o2"])
-    bl.connect(port="o2", destination=sl.ports["o2"])
+    sb.movey(cs.info["width"] + gap)
+    sb.movex(-offset_coupler)
 
-    st.connect(port="o2", destination=bl.ports["o1"])
-    br.connect(port="o2", destination=st.ports["o1"])
-    sr.connect(port="o1", destination=br.ports["o1"])
-    sr.connect(port="o2", destination=cb.ports["o3"])
+    blr.connect(port="o1", destination=sb.ports["o2"])
+    sr.connect(port="o1", destination=blr.ports["o2"])
+    bur.connect(port="o1", destination=sr.ports["o2"])
+    st.connect(port="o1", destination=bur.ports["o2"])
+    bul.connect(port="o1", destination=st.ports["o2"])
+    sl.connect(port="o1", destination=bul.ports["o2"])
+    bll.connect(port="o1", destination=sl.ports["o2"])
 
-    c.add_port("o2", port=cb.ports["o4"])
-    c.add_port("o1", port=cb.ports["o1"])
+    c.add_port("o1", port=bcl.ports["o2"])
+    c.add_port("o2", port=bcr.ports["o1"])
+
+    c.info["length"] = (
+        2 * sy.info["length"] + 2 * sx.info["length"] + 4 * b.info["length"]
+    )
+
+    return c
+
+
+@gf.cell
+def microwave_optical_resonator_system(
+    gap: float = 1.0,
+    length_x: float = 20,
+    length_y: float = 20,
+    radius: float = 10,
+    length_mw: float = 200,
+    bend: gf.Path = partial(gf.path.euler, use_eff=True),
+    op_gap: float = 0.2,
+    op_radius: float = 10.0,
+    op_length_x: float = 4.0,
+    op_length_y: float = 0.6,
+    op_bend: Component = gf.components.bend_euler,
+    op_bend_coupler: Component = None,
+    op_length_coupler: float = 4.0,
+    op_offset_coupler: float = 0.0,
+    op_radius_coupler: float = 10,
+    op_straight: Component = straight,
+    op_cross_section: CrossSectionSpec = "xs_sc",
+    op_pass_cross_section_to_bend: bool = True,
+    mw_coupler_spec: dict = None,
+    mw_lengths: float = [700, 1000, 1000, 500],  # length in [um]
+    mw_bend: gf.Path = gf.path.euler,
+    mw_bend_radius: float = 100,  # [um]
+    mw_wire_path: gf.Path = None,
+    mw_cross_section: CrossSectionSpec = "xs_supercon_wire",
+    mw_label: str = None,
+    mw_trace_layer=LAYER.SC_TRACE,
+    mw_gap_layer=LAYER.SC_GAP,
+    mw_pass_cross_section_to_bend: bool = True,
+) -> gf.Component:
+    """Compound element for microwave-optical transduction. Wraps a optical racetrack
+    with a superconducting wire resonator.
+
+    Args:
+        gap: gap between the edges of the MW wire and the optical waveguide
+        length_x:
+        length_y:
+        radius:
+        length_mw:
+        op_gap: gap between for coupler.
+        op_radius: for the bends in the ring.
+        op_length_x: ring coupler length.
+        op_length_y: vertical straight length.
+        op_bend: 90 degrees bend spec.
+        op_bend_coupler: optional bend for coupler
+        op_length_coupler: straight length of ring
+        op_offset_coupler: offset of coupler from the bottom left
+        op_radius_coupler: optional coupler radius.
+        op_straight: straight spec.
+        op_cross_section: cross_section spec.
+        op_pass_cross_section_to_bend: pass cross_section to bend.
+        mw_coupler_spec: dict that contains parameters for the IDC coupler
+        mw_lengths: array of side lengths of the resonator in um
+        mw_bend: bend spec. Path object.
+        mw_bend_radius: bend radius
+        mw_wire_path: arbitrary path for the resonator to take.
+        mw_cross_section: CrossSectionSpec for the wire
+        mw_label: drawn label to be patterned for identification. If left blank, no label will be drawn
+        mw_trace_layer: can change to arbitrary layer
+        mw_gap_layer: can change to arbitrary layer
+        mw_pass_cross_section_to_bend: pass cross_section to bend. defaults to True
+
+    author: pkirwin@ece.ubc.ca
+    """
+    gap = gf.snap.snap_to_grid2x(gap)
+
+    mw_xs = gf.get_cross_section(mw_cross_section)
+    op_xs = gf.get_cross_section(op_cross_section)
+    mw_radius = radius + gap + 0.5 * mw_xs.width + 0.5 * op_xs.width
+
+    mw_bend_path = partial(bend, radius=mw_radius)
+
+    op_bend_path = partial(bend, radius=radius)
+    op_bend = partial(op_bend_path().extrude, cross_section=op_cross_section)
+
+    length_remainder = length_mw - 4 * mw_bend_path().length() - 2 * length_y - length_x
+
+    c = gf.Component()
+    op_res = c << ring_single_mod_coupler(
+        gap=op_gap,
+        radius=radius,
+        length_x=length_x,
+        length_y=length_y,
+        bend=op_bend,
+        bend_coupler=op_bend_coupler,
+        length_coupler=op_length_coupler,
+        offset_coupler=op_offset_coupler,
+        radius_coupler=op_radius_coupler,
+        straight=op_straight,
+        cross_section=op_cross_section,
+        pass_cross_section_to_bend=op_pass_cross_section_to_bend,
+    )
+    mw_res = c << supercon_wire_resonator_IDC(
+        coupler_spec=mw_coupler_spec,
+        lengths=[length_y, length_x, length_y, length_remainder],
+        bend=mw_bend_path,
+        bend_radius=mw_radius,
+        wire_path=mw_wire_path,
+        cross_section=mw_cross_section,
+        label=mw_label,
+        trace_layer=mw_trace_layer,
+        gap_layer=mw_gap_layer,
+        pass_cross_section_to_bend=mw_pass_cross_section_to_bend,
+    )
+
+    op_res.movey(-op_gap - op_xs.width / 2 + mw_xs.width / 2 + gap)
+    op_res.movex(
+        mw_res.info["coupler_length"]
+        + op_radius
+        + mw_radius
+        + op_xs.width / 2
+        + mw_xs.width / 2
+        + gap
+    )
+
+    c.add_port("e1", port=mw_res.ports["e1"])
+    c.add_port("o1", port=op_res.ports["o1"])
+    c.add_port("o2", port=op_res.ports["o2"])
     return c
 
 
