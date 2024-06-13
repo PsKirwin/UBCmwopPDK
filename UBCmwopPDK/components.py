@@ -1085,16 +1085,12 @@ def ring_single_mod_coupler(
 @gf.cell
 def microwave_optical_resonator_system(
     gap: float = 1.0,
-    length_x: float = 20,
-    length_y: float = 20,
-    radius: float = 10,
-    length_mw: float = 200,
+    length_x: float = 500,
+    length_y: float = 500,
+    radius: float = 100,
     bend: gf.Path = partial(gf.path.euler, use_eff=True),
+    length_mw: float = 2400,
     op_gap: float = 0.2,
-    op_radius: float = 10.0,
-    op_length_x: float = 4.0,
-    op_length_y: float = 0.6,
-    op_bend: Component = gf.components.bend_euler,
     op_bend_coupler: Component = None,
     op_length_coupler: float = 4.0,
     op_offset_coupler: float = 0.0,
@@ -1103,14 +1099,8 @@ def microwave_optical_resonator_system(
     op_cross_section: CrossSectionSpec = "xs_sc",
     op_pass_cross_section_to_bend: bool = True,
     mw_coupler_spec: dict = None,
-    mw_lengths: float = [700, 1000, 1000, 500],  # length in [um]
-    mw_bend: gf.Path = gf.path.euler,
-    mw_bend_radius: float = 100,  # [um]
-    mw_wire_path: gf.Path = None,
     mw_cross_section: CrossSectionSpec = "xs_supercon_wire",
     mw_label: str = None,
-    mw_trace_layer=LAYER.SC_TRACE,
-    mw_gap_layer=LAYER.SC_GAP,
     mw_pass_cross_section_to_bend: bool = True,
 ) -> gf.Component:
     """Compound element for microwave-optical transduction. Wraps a optical racetrack
@@ -1118,15 +1108,12 @@ def microwave_optical_resonator_system(
 
     Args:
         gap: gap between the edges of the MW wire and the optical waveguide
-        length_x:
-        length_y:
-        radius:
-        length_mw:
-        op_gap: gap between for coupler.
-        op_radius: for the bends in the ring.
-        op_length_x: ring coupler length.
-        op_length_y: vertical straight length.
-        op_bend: 90 degrees bend spec.
+        length_x: straight x-length of both resonators
+        length_y: straight y-length of both resonators
+        radius: radius of the bends on the racetrack
+        bend: 90 degrees bend spec for both resonators.
+        length_mw: total length of the microwave resonator
+        op_gap: gap of directional coupler for the ring.
         op_bend_coupler: optional bend for coupler
         op_length_coupler: straight length of ring
         op_offset_coupler: offset of coupler from the bottom left
@@ -1135,14 +1122,8 @@ def microwave_optical_resonator_system(
         op_cross_section: cross_section spec.
         op_pass_cross_section_to_bend: pass cross_section to bend.
         mw_coupler_spec: dict that contains parameters for the IDC coupler
-        mw_lengths: array of side lengths of the resonator in um
-        mw_bend: bend spec. Path object.
-        mw_bend_radius: bend radius
-        mw_wire_path: arbitrary path for the resonator to take.
-        mw_cross_section: CrossSectionSpec for the wire
+        mw_cross_section: CrossSectionSpec for the supercon wire
         mw_label: drawn label to be patterned for identification. If left blank, no label will be drawn
-        mw_trace_layer: can change to arbitrary layer
-        mw_gap_layer: can change to arbitrary layer
         mw_pass_cross_section_to_bend: pass cross_section to bend. defaults to True
 
     author: pkirwin@ece.ubc.ca
@@ -1180,18 +1161,15 @@ def microwave_optical_resonator_system(
         lengths=[length_y, length_x, length_y, length_remainder],
         bend=mw_bend_path,
         bend_radius=mw_radius,
-        wire_path=mw_wire_path,
         cross_section=mw_cross_section,
         label=mw_label,
-        trace_layer=mw_trace_layer,
-        gap_layer=mw_gap_layer,
         pass_cross_section_to_bend=mw_pass_cross_section_to_bend,
     )
 
     op_res.movey(-op_gap - op_xs.width / 2 + mw_xs.width / 2 + gap)
     op_res.movex(
         mw_res.info["coupler_length"]
-        + op_radius
+        + radius
         + mw_radius
         + op_xs.width / 2
         + mw_xs.width / 2
