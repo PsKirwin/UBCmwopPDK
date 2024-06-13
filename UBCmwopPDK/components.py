@@ -1260,6 +1260,60 @@ pad = partial(
 )
 
 
+@gf.cell
+def pad_supercon(
+    size: float = (400.0, 400.0),
+    gap: float = 130,
+    buffer: float = 245,
+    cross_section: CrossSectionSpec = "xs_supercon_CPW_feedline",
+) -> gf.Component:
+    """Returns a rectangular pad with a taper on the right side for microwave/RF lines.
+
+    Args:
+        size: x, y size.
+        gap: distance between the pad and the ground plane (not drawn)
+        buffer: length of gap layer to draw on left side of pad
+        cross_section: crossSectionSpec of CPW that bondpad tapers into
+    """
+
+    s0 = gf.Section(
+        width=size[1],
+        offset=0,
+        layer=LAYER.SC_TRACE,
+        port_names=("e1", "e2"),
+        name="_default",
+    )
+    s1 = gf.Section(
+        width=gap, offset=(size[1] + gap) / 2, layer=LAYER.SC_GAP, name="top"
+    )
+    s2 = gf.Section(
+        width=gap, offset=-(size[1] + gap) / 2, layer=LAYER.SC_GAP, name="bot"
+    )
+    xsec_pad = gf.CrossSection(sections=[s0, s1, s2])
+
+    xsec_feedline = gf.get_cross_section(cross_section)
+
+    pad = gf.path.extrude(p=gf.path.straight(length=size[0]), cross_section=xsec_pad)
+    taper = gf.components.taper_cross_section_linear(
+        cross_section1=xsec_pad, cross_section2=xsec_feedline, length=size[0]
+    )
+    c = gf.Component()
+    pad_ref = c << pad
+    taper_ref = c << taper
+    taper_ref.connect("e1", pad_ref.ports["e2"])
+    c.add_port("e1", port=taper_ref.ports["e2"])
+    c.add_polygon(
+        points=[
+            (0, -(gap + size[1] / 2)),
+            (-buffer, -(gap + size[1] / 2)),
+            (-buffer, gap + size[1] / 2),
+            (0, gap + size[1] / 2),
+        ],
+        layer=LAYER.SC_GAP,
+    )
+    return c
+
+
 def add_label_electrical(component: Component, text: str, port_name: str = "e2"):
     """Adds labels for electrical port.
 

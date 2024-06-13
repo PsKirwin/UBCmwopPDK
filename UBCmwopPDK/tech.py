@@ -343,8 +343,8 @@ supercon_CPW = partial(
     width=2,
     layer=LAYER.SC_TRACE,
     sections=[
-        gf.Section(width=10, offset=6, layer=LAYER.SC_GAP),
-        gf.Section(width=10, offset=-6, layer=LAYER.SC_GAP),
+        gf.Section(width=10, offset=6, layer=LAYER.SC_GAP, name="top"),
+        gf.Section(width=10, offset=-6, layer=LAYER.SC_GAP, name="bot"),
     ],
     port_names=gf.cross_section.port_names_electrical,
     port_types=gf.cross_section.port_types_electrical,
@@ -354,6 +354,16 @@ supercon_CPW = partial(
 supercon_CPW_cap = partial(
     supercon_CPW,
     layer=LAYER.SC_GAP,
+)
+
+supercon_CPW_feedline = partial(
+    supercon_CPW,
+    width=55,
+    sections=[
+        gf.Section(width=4, offset=29.5, layer=LAYER.SC_GAP, name="top"),
+        gf.Section(width=4, offset=-29.5, layer=LAYER.SC_GAP, name="bot"),
+    ],
+    radius=1000,
 )
 
 
@@ -374,6 +384,7 @@ xs_sc_devrec = strip(cladding_layers=("DEVREC",), cladding_offsets=(0.5,))
 xs_supercon_wire = supercon_wire()
 xs_supercon_CPW = supercon_CPW()
 xs_supercon_CPW_cap = supercon_CPW_cap()
+xs_supercon_CPW_feedline = supercon_CPW_feedline()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 
