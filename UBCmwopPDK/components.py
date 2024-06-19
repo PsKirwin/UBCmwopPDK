@@ -834,6 +834,7 @@ def supercon_wire_resonator_IDC(
     label: str = None,
     trace_layer=LAYER.SC_TRACE,
     gap_layer=LAYER.SC_GAP,
+    offset: float = 100,
     pass_cross_section_to_bend: bool = True,
 ) -> gf.Component:
     """Returns a superconducting wire resonator with an interdigital capacitor at the end.
@@ -851,6 +852,7 @@ def supercon_wire_resonator_IDC(
         label: drawn label to be patterned for identification. If left blank, no label will be drawn
         trace_layer: can change to arbitrary layer
         gap_layer: can change to arbitrary layer
+        offset: offset between the wire and ground plane
         pass_cross_section_to_bend: pass cross_section to bend. defaults to True
 
     author: Phillip Kirwin (pkirwin@ece.ubc.ca)
@@ -966,8 +968,16 @@ def supercon_wire_resonator_IDC(
     res_ref.connect("e1", IDCwithstubs_ref.ports["o2"])
 
     c.add_port("e1", port=IDCwithstubs_ref.ports["o1"])
-
     c.info["coupler_length"] = float(xsize)
+
+    gap_box = c << gf.components.rectangle(
+        size=(
+            lengths[1] + 2 * bend_radius + 2 * offset + cross_section.width,
+            lengths[0] + 2 * bend_radius + 2 * offset + cross_section.width,
+        ),
+        layer=LAYER.SC_GAP,
+    )
+    gap_box.movex(xsize).movey(-offset - cross_section.width / 2)
     return c
 
 

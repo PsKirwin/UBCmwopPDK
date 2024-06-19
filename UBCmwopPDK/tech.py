@@ -24,6 +24,7 @@ pin_length = 10 * nm
 
 class LayerMapUbc(BaseModel):
     WG: Layer = (1, 0)
+    WG_KEEPOUT: Layer = (1, 2)
     WG2: Layer = (31, 0)
     M1_HEATER: Layer = (11, 0)
     M2_ROUTER: Layer = (12, 0)
@@ -303,6 +304,10 @@ strip = partial(
     cross_section,
     cladding_layers=cladding_layers_optical_siepic,
     cladding_offsets=cladding_offsets_optical_siepic,
+    sections=[
+        gf.Section(width=2, offset=1.25, layer=LAYER.WG_KEEPOUT, name="top"),
+        gf.Section(width=2, offset=-1.25, layer=LAYER.WG_KEEPOUT, name="bot"),
+    ],
 )
 strip_unclad = strip_simple = cross_section
 strip_heater_metal = partial(
@@ -332,7 +337,7 @@ metal_routing = partial(
 supercon_wire = partial(
     cross_section,
     layer=LAYER.SC_TRACE,
-    width=1.0,
+    width=0.2,
     port_names=gf.cross_section.port_names_electrical,
     port_types=gf.cross_section.port_types_electrical,
     radius=100,
