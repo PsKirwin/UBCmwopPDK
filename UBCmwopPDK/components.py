@@ -1120,7 +1120,7 @@ def microwave_optical_resonator_system(
         gap: gap between the edges of the MW wire and the optical waveguide
         length_x: straight x-length of both resonators
         length_y: straight y-length of both resonators
-        radius: radius of the bends on the racetrack
+        radius: radius of the bends on the nanowire. optical radius will be calculated.
         bend: 90 degrees bend spec for both resonators.
         length_mw: total length of the microwave resonator
         op_gap: gap of directional coupler for the ring.
@@ -1142,11 +1142,12 @@ def microwave_optical_resonator_system(
 
     mw_xs = gf.get_cross_section(mw_cross_section)
     op_xs = gf.get_cross_section(op_cross_section)
-    mw_radius = radius + gap + 0.5 * mw_xs.width + 0.5 * op_xs.width
+    mw_radius = radius
+    op_radius = radius - gap - 0.5 * mw_xs.width - 0.5 * op_xs.width
 
     mw_bend_path = partial(bend, radius=mw_radius)
 
-    op_bend_path = partial(bend, radius=radius)
+    op_bend_path = partial(bend, radius=op_radius)
     op_bend = partial(op_bend_path().extrude, cross_section=op_cross_section)
 
     length_remainder = length_mw - 4 * mw_bend_path().length() - 2 * length_y - length_x
@@ -1154,7 +1155,7 @@ def microwave_optical_resonator_system(
     c = gf.Component()
     op_res = c << ring_single_mod_coupler(
         gap=op_gap,
-        radius=radius,
+        radius=op_radius,
         length_x=length_x,
         length_y=length_y,
         bend=op_bend,
@@ -1179,7 +1180,7 @@ def microwave_optical_resonator_system(
     op_res.movey(-op_gap - op_xs.width / 2 + mw_xs.width / 2 + gap)
     op_res.movex(
         mw_res.info["coupler_length"]
-        + radius
+        + op_radius
         + mw_radius
         + op_xs.width / 2
         + mw_xs.width / 2
