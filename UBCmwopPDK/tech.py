@@ -337,7 +337,7 @@ metal_routing = partial(
 supercon_wire = partial(
     cross_section,
     layer=LAYER.SC_TRACE,
-    width=0.2,
+    width=0.4,
     port_names=gf.cross_section.port_names_electrical,
     port_types=gf.cross_section.port_types_electrical,
     radius=100,
