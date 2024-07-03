@@ -965,7 +965,7 @@ def supercon_wire_resonator_IDC(
     res_ref = c << res
     label_ref = c << label
     label_ref.rotate(90).movex(6 * (finger_length + stub1_length)).movey(2 * ysize)
-    res_ref.connect("e1", IDCwithstubs_ref.ports["o2"])
+    res_ref.connect("e1", IDCwithstubs_ref.ports["o2"], allow_type_mismatch=True)
 
     c.add_port("e1", port=IDCwithstubs_ref.ports["o1"])
     c.info["coupler_length"] = float(xsize)
@@ -1253,7 +1253,7 @@ pad = partial(
 def pad_supercon(
     size: float = (400.0, 400.0),
     gap: float = 130,
-    buffer: float = 245,
+    buffer: float = 100,
     cross_section: CrossSectionSpec = "xs_supercon_CPW_feedline",
 ) -> gf.Component:
     """Returns a rectangular pad with a taper on the right side for microwave/RF lines.
