@@ -610,6 +610,17 @@ def dbr(
     return add_pins_bbox_siepic(c)
 
 
+def ebeam_Bragg_apodized() -> gf.Component:
+    """Return ebeam_bragg_apodized fixed cell. originally in ebeam_beta.
+    has the following parameters:
+    L=1000um,
+    Period=332nm,
+    corrugation W=20nm,
+    Gaussindex=3
+    """
+    return import_gds("ebeam_bragg_apodized_fixedcell.gds")
+
+
 @gf.cell(post_process=(tech.add_pins_bbox_siepic,), include_module=True)
 def coupler(**kwargs) -> gf.Component:
     return gf.components.coupler(**kwargs).flatten()
