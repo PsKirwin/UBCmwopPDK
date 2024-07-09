@@ -30,10 +30,12 @@ class LayerMapUbc(BaseModel):
     M2_ROUTER: Layer = (12, 0)
     MTOP: Layer = (12, 0)
     PAD_OPEN: Layer = (13, 0)
+
     SC_TRACE: Layer = (70, 0)
     SC_GAP: Layer = (70, 1)
     SC_GND: Layer = (70, 2)
     SC_LIFTOFF: Layer = (70, 3)
+    SC_GAPCOARSE: Layer = (70, 4)
 
     DEVREC: Layer = (68, 0)
     PORT: Layer = (1, 10)  # PinRec

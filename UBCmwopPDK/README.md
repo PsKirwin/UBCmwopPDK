@@ -29,4 +29,4 @@ Each participant is allocated a rectangle of 605 µm (width) X 410 µm (height).
 
 ## For Developers
 ### modifying the layermap:
-make the desired changes to the layermap in the file "layers.yaml". After that, run tech.py in the command line. This will transfer the contents of layers.yaml to the klayout .lyp file that stores the layer info. Then, run "install_tech.py", and click on the technology in klayout. If the changes aren't seen, restart klayout.
+make the desired changes to the layermap in the file "layers.yaml". Then modify the LayerMapUBC class in tech.py to reflect the changes. After that, run tech.py in the command line. This will transfer the contents of layers.yaml to the klayout .lyp file that stores the layer info. Then, run "install_tech.py", and click on the technology in klayout. If the changes aren't seen, restart klayout.

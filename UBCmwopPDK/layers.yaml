@@ -51,6 +51,12 @@ LayerViews:
         width: 1
         color: "#42f57b"
         hatch_pattern: coarsely dotted
+      Gap_Coarse:
+        layer: [70, 4]
+        layer_in_name: true
+        width: 1
+        color: "#8d05f5"
+        hatch_pattern: coarsely dotted
   METAL:
     group_members:
       M1_HEATER:
