@@ -3,7 +3,6 @@ from __future__ import annotations
 import gdsfactory as gf
 import jsondiff
 import pytest
-from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
 
 from UBCmwopPDK import PDK
@@ -16,6 +15,7 @@ skip_test = {
     "add_pins_siepic",
     "add_pins_siepic_metal",
     "add_pads",
+    "add_pads_rf",
     "dbr",
     "dbg",
     "import_gds",
@@ -27,6 +27,12 @@ skip_test = {
     "ebeam_splitter_adiabatic_swg_te1550",
     "ebeam_swg_edgecoupler",
     "ebeam_BondPad",
+    "add_fiber_array",
+    "add_pads_top",
+    "add_pads_bot",
+    "wire_corner",
+    "straight_heater_metal",
+    "add_fiber_array_pads_rf",
 }
 cell_names = cells.keys() - skip_test
 
@@ -51,12 +57,45 @@ def test_netlists(
     c = component_factory[component_type]()
     allow_multiple = True
     n = c.get_netlist(allow_multiple=allow_multiple)
+    n.pop("connections", None)
+    n.pop("warnings", None)
     if check:
         data_regression.check(n)
 
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gf.read.from_yaml(yaml_str, name=c.name)
+    yaml_str = c.write_netlist(n)
+    c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist(allow_multiple=allow_multiple)
 
     d = jsondiff.diff(n, n2)
+    d.pop("warnings", None)
+    d.pop("ports", None)
+    assert len(d) == 0, d
+
+
+if __name__ == "__main__":
+    component_type = "straight_heater_metal"
+    component_type = "gc_te1310_broadband"
+    component_type = "ring_double"
+    component_type = "terminator_short"
+    component_type = "mzi_heater"
+    component_type = "ring_double_heater"
+    connection_error_types = {
+        "optical": ["width_mismatch", "shear_angle_mismatch", "orientation_mismatch"]
+    }
+    connection_error_types = {"optical": []}
+
+    c1 = cells[component_type]()
+    # c1.show()
+    n = c1.get_netlist(
+        allow_multiple=True, connection_error_types=connection_error_types
+    )
+    yaml_str = c1.write_netlist(n)
+    c1.delete()
+    # gf.clear_cache()
+    # print(yaml_str)
+    c2 = gf.read.from_yaml(yaml_str)
+    n2 = c2.get_netlist(allow_multiple=True)
+    d = jsondiff.diff(n, n2)
+    d.pop("warnings", None)
+    c2.show()
     assert len(d) == 0, d

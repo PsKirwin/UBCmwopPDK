@@ -73,7 +73,7 @@ LayerViews:
       M_Open:
         layer: [13, 0]
         layer_in_name: true
-        color: "black"
+        color: "gray"
         hatch_pattern: hollow
       MH:
         layer: [47, 0]
@@ -91,7 +91,7 @@ LayerViews:
     layer: [6, 0]
     layer_in_name: true
     width: 1
-    color: "black"
+    color: "gray"
   SiEPIC:
     group_members:
       DevRec:
@@ -148,10 +148,6 @@ LayerViews:
         layer_in_name: true
         color: "#004080"
         hatch_pattern: solid
-  Text:
-    layer: [66, 0]
-    width: 1
-    color: "blue"
   TE:
     layer: [203, 0]
     layer_in_name: true
@@ -167,6 +163,41 @@ LayerViews:
     layer: [206, 0]
     layer_in_name: true
     color: "blue"
+  FLOORPLAN:
+    layer: [99, 0]
+    layer_in_name: true
+    color: "gray"
+    hatch_pattern: hollow
+  Lumerical:
+    layer: [733, 0]
+    width: 3
+    color: "#800057"
+  DevRec:
+    layer: [68, 0]
+    visible: true
+    transparent: true
+    width: 1
+    color: "#004080"
+    hatch_pattern: hollow
+  PinRec:
+    layer: [1, 10]
+    color: "#404040"
+  FbrTgt:
+    layer: [81, 0]
+    width: 2
+    color: "#004080"
+  Text:
+    layer: [66, 0]
+    width: 1
+    color: "blue"
+  Errors:
+    layer: [69, 0]
+    width: 1
+    color: "blue"
+  PinRecM:
+    layer: [1, 11]
+    width: 1
+    color: "#004080"
   XSECTION:
     group_members:
       XS_BOX:
@@ -179,13 +210,13 @@ LayerViews:
         layer: [301, 0]
         layer_in_name: true
         width: 1
-        color: "black"
+        color: "gray"
         hatch_pattern: solid
       XS_SIN:
         layer: [319, 0]
         layer_in_name: true
         width: 1
-        color: "black"
+        color: "gray"
         hatch_pattern: solid
       XS_N:
         layer: [320, 0]
@@ -308,7 +339,7 @@ LayerViews:
       SIM_REGION:
         layer: [100, 0]
         layer_in_name: true
-        color: "black"
+        color: "gray"
       MONITOR:
         layer: [101, 0]
         layer_in_name: true

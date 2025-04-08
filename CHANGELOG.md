@@ -2,10 +2,32 @@
 
 <!-- towncrier release notes start -->
 
-## [2.5.0](https://github.com/gdsfactory/ubc/releases/tag/v2.5.0) - 2024-03-24
+## [2.7.0](https://github.com/gdsfactory/ubc/releases/tag/v2.7.0) - 2024-11-10
 
 No significant changes.
 
+
+## [2.6.3](https://github.com/gdsfactory/ubc/releases/tag/v2.6.3) - 2024-09-28
+
+- Update gdsfactory889 [#404](https://github.com/gdsfactory/ubc/pull/404)
+
+## [2.6.2](https://github.com/gdsfactory/ubc/releases/tag/v2.6.2) - 2024-09-04
+
+- remove old mmi2x2 [#400](https://github.com/gdsfactory/ubc/pull/400)
+- update gdsfactory 862 [#399](https://github.com/gdsfactory/ubc/pull/399)
+
+## [2.6.1](https://github.com/gdsfactory/ubc/releases/tag/v2.6.1) - 2024-07-27
+
+
+## [2.6.0](https://github.com/gdsfactory/ubc/releases/tag/v2.6.0) - 2024-07-15
+
+- update to gdsfactory8
+
+## [2.5.0](https://github.com/gdsfactory/ubc/releases/tag/v2.5.0) - 2024-03-24
+
+- Update gdsfactory to latest version 7.23 [#370](https://github.com/gdsfactory/ubc/pull/370)
+- simpler pdk init [#363](https://github.com/gdsfactory/ubc/pull/363)
+- add models [#362](https://github.com/gdsfactory/ubc/pull/362)
 
 ## [2.4.1](https://github.com/gdsfactory/ubc/releases/tag/v2.4.1) - 2024-03-05
 
