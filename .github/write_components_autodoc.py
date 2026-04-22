@@ -1,6 +1,6 @@
 import inspect
 
-import UBCmwopPDK
+from UBCmwopPDK import PDK
 from UBCmwopPDK.config import PATH
 
 filepath = PATH.repo / "docs" / "components.rst"
@@ -25,6 +25,7 @@ skip = {
 
 skip_plot = {}
 skip_settings = {"flatten", "safe_cell_names"}
+cells = PDK.cells
 
 
 with open(filepath, "w+") as f:
@@ -34,7 +35,7 @@ with open(filepath, "w+") as f:
 Cells summary
 =============================
 
-.. currentmodule:: UBCmwopPDK.components
+.. currentmodule:: UBCmwopPDK.cells
 
 .. autosummary::
    :toctree: _autosummary/
@@ -42,11 +43,11 @@ Cells summary
 """
     )
 
-    for name in sorted(UBCmwopPDK.cells.keys()):
+    for name in sorted(cells.keys()):
         if name in skip or name.startswith("_"):
             continue
         print(name)
-        sig = inspect.signature(UBCmwopPDK.cells[name])
+        sig = inspect.signature(cells[name])
         kwargs = ", ".join(
             [
                 f"{p}={repr(sig.parameters[p].default)}"

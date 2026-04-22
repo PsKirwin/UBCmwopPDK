@@ -1,10 +1,14 @@
 install:
-	pip install -e .[dev,docs]
-	python install_tech.py
+	uv sync --extra docs --extra dev
 
-dev:
-	uv venv -p 3.12
-	uv sync --all-extras
+all:
+	uv run python UBCmwopPDK/samples/all_cells.py
+
+rm-samples:
+	rm -rf UBCmwopPDK/samples
+
+dev: install
+	curl -sf https://raw.githubusercontent.com/doplaydo/pdk-ci-workflow/main/templates/.pre-commit-config.yaml -o .pre-commit-config.yaml
 	uv run pre-commit install
 
 update-pre:
@@ -14,13 +18,16 @@ tech:
 	python install_tech.py
 
 test:
-	pytest -s
-
-uv-test:
 	uv run pytest -s
 
+test-ports:
+	uv run pytest -s tests/test_si220_cband.py::test_optical_port_positions
+
+test-force: install
+	uv run pytest -s --update-gds-refs --force-regen
+
 cov:
-	pytest --cov=UBCmwopPDK
+	uv run pytest --cov=UBCmwopPDK
 
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
@@ -40,7 +47,9 @@ build:
 	python -m build
 
 docs:
-	jb build docs
+	uv run python .github/write_components_plot.py
+	uv run python .github/write_components_autodoc.py
+	uv run jb build docs
 
 mask:
 	python UBCmwopPDK/samples/test_masks.py

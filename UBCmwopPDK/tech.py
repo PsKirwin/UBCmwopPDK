@@ -6,14 +6,17 @@
 """
 
 import sys
+from collections.abc import Callable
 from functools import partial
 
 import gdsfactory as gf
+from doroutes.bundles import add_bundle_astar
 from gdsfactory.add_pins import add_pin_path
 from gdsfactory.component import Component
 from gdsfactory.cross_section import get_cross_sections
+from gdsfactory.cross_section import ComponentAlongPath
 from gdsfactory.technology import LayerLevel, LayerMap, LayerStack
-from gdsfactory.typings import Callable, Layer, LayerSpec
+from gdsfactory.typings import Layer, LayerSpec
 from pydantic import BaseModel
 
 from UBCmwopPDK.config import PATH
@@ -269,6 +272,12 @@ def get_layer_stack(
 class Tech(BaseModel):
     fiber_array_spacing: float = 250.0
     wg_width: float = 0.5
+    gap_strip: float = 0.2
+    gap: float = 0.2
+    radius: float = 10.0
+    radius_strip: float = 10.0
+    width: float = 0.5
+    width_metal: float = 1.5
 
 
 TECH = Tech()
@@ -327,7 +336,7 @@ strip_bbox = partial(
 )
 
 metal_routing = partial(
-    cross_section,
+    gf.cross_section.metal_routing,
     layer=LAYER.M2_ROUTER,
     width=10.0,
     port_names=gf.cross_section.port_names_electrical,
@@ -342,6 +351,7 @@ supercon_wire = partial(
     port_names=gf.cross_section.port_names_electrical,
     port_types=gf.cross_section.port_types_electrical,
     radius=100,
+    main_section_name="wire1",
 )
 
 supercon_CPW = partial(
@@ -372,6 +382,175 @@ supercon_CPW_feedline = partial(
     radius=1000,
 )
 
+# defining CPW cross-section with holes to allow for buried oxide removal
+def supercon_CPW_hole(
+    CPW_width: float = 2,
+    CPW_gap: float = 10,
+    hole_padding: float = 1,
+    hole_radius: float = 1,
+    hole_duty_cycle: float = 1/3,
+    hole_offset: float = 61,
+    n_holes: int = 6,
+    trace_layer: LayerSpec = LAYER.SC_TRACE,
+    gap_layer: LayerSpec = LAYER.SC_GAP,
+    hole_layer: LayerSpec = LAYER.WG_KEEPOUT,
+    ) -> gf.CrossSection:
+    """
+    Function that returns a cross-section for a CPW surrounded by holes.
+    This would be used, for example, when one wishes to suspend a CPW patterned on SOI by removing the buried oxide.
+
+    Args:
+        CPW_width: float
+            width of the centre trace of the CPW
+        CPW_gap: float
+            gap between the ground and signal of the CPW, assumed symmetric
+        hole_padding: float
+            distance along the CPW path before which a hole will not be placed
+        hole_radius: float
+            radius of the holes
+        hole_duty_cycle: float
+            a spacial duty cycle. The proportion of distance that is taken up by a hole. is used to calculate the pitch.
+        hole_offset: float
+            distance from the centre of the CPW to the centre of the first hole
+        n_holes: float
+            number of holes columns on either side of the CPW
+        trace_layer: tuple
+            layer of the centre trace. i.e., (1,0)
+        gap_layer: tuple
+            layer of the gap. i.e., (2,0)
+        hole_layer: tuple
+            layer of the holes. i.e., (3,0)
+    """
+    offset = CPW_width/2 + CPW_gap/2
+    s0 = gf.Section(width=CPW_width, offset=0, layer=trace_layer, port_names=("in", "out"))
+    s1 = gf.Section(width=CPW_gap, offset=+offset, layer=gap_layer)
+    s2 = gf.Section(width=CPW_gap, offset=-offset, layer=gap_layer)
+
+    hole_pitch = 2*hole_radius / hole_duty_cycle
+    hole_up = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+hole_offset)
+    hole_down = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=-hole_offset)
+    holes = (hole_up, hole_down)
+    for nn in range(n_holes):
+        offset = (nn+1) * hole_pitch + hole_offset
+        holes += (
+            ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+offset),
+            )
+        holes += (
+            ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=-offset),
+            )
+    xsec = gf.CrossSection(sections=(s0,s1,s2), components_along_path=holes)
+    return xsec
+
+# defining wire pair cross-section with holes to allow for buried oxide removal
+def supercon_pair_hole(
+    wire_width: float = 10,
+    wire_gap: float = 10,
+    radius: float = 20,
+    hole_padding: float = 1,
+    hole_radius: float = 1,
+    hole_duty_cycle: float = 1/3,
+    hole_offset: float = 20,
+    n_holes: int = 0,
+    trace_layer: LayerSpec = LAYER.SC_TRACE,
+    hole_layer: LayerSpec = LAYER.WG_KEEPOUT,
+    slab_layer: LayerSpec = LAYER.SLAB150,
+    swap_wire_names: bool = False,
+    ) -> gf.CrossSection:
+    """
+    Function that returns a cross-section for a pair of superconducting wires surrounded by holes.
+    This would be used, for example, when one wishes to suspend a wire pair patterned on SOI by removing the buried oxide.
+
+    Args:
+        wire_width: float
+            width of the individual wires
+        wire_gap: float
+            gap between the pair of wires
+        hole_padding: float
+            distance along the CPW path before which a hole will not be placed
+        hole_radius: float
+            radius of the holes
+        hole_duty_cycle: float
+            a spacial duty cycle. The proportion of distance that is taken up by a hole. is used to calculate the pitch.
+        hole_offset: float
+            distance from the centre of the pair to the centre of the first hole
+        n_holes: float
+            number of holes columns on either side of the CPW
+        trace_layer: tuple
+            layer of the centre trace. i.e., (1,0)
+        gap_layer: tuple
+            layer of the gap. i.e., (2,0)
+        hole_layer: tuple
+            layer of the holes. i.e., (3,0)
+    """
+    offset = wire_width/2 + wire_gap/2
+    s1 = gf.Section(width=wire_width, offset=+offset, layer=trace_layer, port_names=("e1", "e2"), port_types=gf.cross_section.port_types_electrical, name="wire1" if not swap_wire_names else "wire2")
+    s2 = gf.Section(width=wire_width, offset=-offset, layer=trace_layer, port_names=("e3", "e4"), port_types=gf.cross_section.port_types_electrical, name="wire2" if not swap_wire_names else "wire1")
+    sslab = gf.Section(width=1.8*wire_width+2*offset, offset=0, layer=slab_layer, name="slab")
+
+    hole_pitch = 2*hole_radius / hole_duty_cycle
+    hole_up = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+hole_offset)
+    hole_down = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=-hole_offset)
+    hole_middle = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=0)
+    holes = (hole_up, hole_down, hole_middle)
+    for nn in range(n_holes):
+        offset = (nn+1) * hole_pitch + hole_offset
+        holes += (
+            ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+offset),
+            )
+        holes += (
+            ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=-offset),
+            )
+    xsec = gf.CrossSection(sections=(s1,s2,sslab), components_along_path=holes, radius=radius)
+    return xsec
+
+# defining wire cross-section with holes to allow for buried oxide removal
+def supercon_wire_hole(
+    width: float = 0.4,
+    radius: float = 20,
+    hole_padding: float = 1,
+    hole_radius: float = 1,
+    hole_duty_cycle: float = 1/3,
+    hole_offset: float = 3,
+    n_holes: int = 0,
+    trace_layer: LayerSpec = LAYER.SC_TRACE,
+    hole_layer: LayerSpec = LAYER.WG_KEEPOUT,
+    slab_layer: LayerSpec = LAYER.SLAB150,
+    ) -> gf.CrossSection:
+    """
+    Function that returns a cross-section for superconducting wire with holes on one side.
+    This would be used, for example, when one wishes to suspend a wire patterned on SOI by removing the buried oxide.
+
+    Args:
+        wire_width: float
+            width of the wire
+        hole_padding: float
+            distance along the CPW path before which a hole will not be placed
+        hole_radius: float
+            radius of the holes
+        hole_duty_cycle: float
+            a spacial duty cycle. The proportion of distance that is taken up by a hole. is used to calculate the pitch.
+        hole_offset: float
+            distance from the centre of the pair to the centre of the first hole
+        n_holes: float
+            number of holes columns on either side of the CPW
+        trace_layer: tuple
+            layer of the centre trace. i.e., (1,0)
+        hole_layer: tuple
+            layer of the holes. i.e., (3,0)
+    """
+    s1 = gf.Section(width=width, offset=0, layer=trace_layer, port_names=("e1", "e2"), port_types=gf.cross_section.port_types_electrical, name="wire1")
+    sslab = gf.Section(width=20*width, offset=0, layer=slab_layer, name="slab")
+
+    hole_pitch = 2*hole_radius / hole_duty_cycle
+    hole_up = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+hole_offset)
+    holes = (hole_up,)
+    for nn in range(n_holes):
+        offset = (nn+1) * hole_pitch + hole_offset
+        holes += (
+            ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+offset),
+            )
+    xsec = gf.CrossSection(sections=(s1,sslab), components_along_path=holes, radius=radius)
+    return xsec
 
 heater_metal = partial(metal_routing, width=heater_width, layer=LAYER.M1_HEATER)
 
@@ -394,14 +573,66 @@ xs_supercon_CPW_feedline = supercon_CPW_feedline()
 
 cross_sections = get_cross_sections(sys.modules[__name__])
 
+############################
+# Routing functions
+############################
+
+route_single = partial(gf.routing.route_single, cross_section="strip")
+route_bundle = partial(gf.routing.route_bundle, cross_section="strip")
+
+
+route_bundle_rib = partial(
+    route_bundle,
+    cross_section="rib",
+)
+route_bundle_metal = partial(
+    route_bundle,
+    straight="straight_metal",
+    bend="bend_metal",
+    taper=None,
+    cross_section="metal_routing",
+    port_type="electrical",
+)
+route_bundle_metal_corner = partial(
+    route_bundle,
+    straight="straight_metal",
+    bend="wire_corner",
+    taper=None,
+    cross_section="metal_routing",
+    port_type="electrical",
+)
+
+route_astar = partial(
+    add_bundle_astar,
+    layers=["WG"],
+    bend="bend_euler",
+    straight="straight",
+    grid_unit=500,
+    spacing=3,
+)
+
+route_astar_metal = partial(
+    add_bundle_astar,
+    layers=["M2_ROUTER"],
+    bend="wire_corner",
+    straight="straight_metal",
+    grid_unit=500,
+    spacing=15,
+)
+
+
+routing_strategies = dict(
+    route_bundle=route_bundle,
+    route_bundle_rib=route_bundle_rib,
+    route_bundle_metal=route_bundle_metal,
+    route_bundle_metal_corner=route_bundle_metal_corner,
+    route_astar=route_astar,
+    route_astar_metal=route_astar_metal,
+)
+
 
 if __name__ == "__main__":
     # LAYER_VIEWS = gf.technology.LayerViews(filepath=PATH.lyp)
     # LAYER_VIEWS.to_yaml(PATH.layers_yaml)
     # LAYER_VIEWS = gf.technology.LayerViews(PATH.lyp_yaml)
     LAYER_VIEWS.to_lyp(PATH.lyp)
-    # c = gf.c.mzi()
-    # c = gf.c.straight(length=1, cross_section=strip)
-    # c = gf.c.bend_euler(cross_section=strip)
-    c = gf.c.mzi(delta_length=10, cross_section=strip)
-    c.show()

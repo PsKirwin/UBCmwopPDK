@@ -1,11 +1,19 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "uv"
+    cooldown:
+      default-days: 7
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: monthly
+    ignore:
+      - dependency-name: "doplaydo/*"
 
   - package-ecosystem: github-actions
+    cooldown:
+      default-days: 7
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      - dependency-name: "doplaydo/*"

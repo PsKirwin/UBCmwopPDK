@@ -132,7 +132,7 @@ LayerViews:
         layer: [10, 0]
         layer_in_name: true
         width: 1
-        color: "blue"
+        color: "gray"
       FLOORPLAN:
         layer: [99, 0]
         layer_in_name: true
@@ -162,7 +162,7 @@ LayerViews:
   LABEL_INSTANCES:
     layer: [206, 0]
     layer_in_name: true
-    color: "blue"
+    color: "gray"
   FLOORPLAN:
     layer: [99, 0]
     layer_in_name: true
@@ -170,6 +170,10 @@ LayerViews:
     hatch_pattern: hollow
   Lumerical:
     layer: [733, 0]
+    width: 3
+    color: "#800057"
+  WAFER:
+    layer: [999, 0]
     width: 3
     color: "#800057"
   DevRec:

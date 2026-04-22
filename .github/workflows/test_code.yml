@@ -1,48 +1,11 @@
 name: Test code
-
 on:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.10"
-      - name: Test pre-commit hooks
-        run: |
-          python -m pip install --upgrade pip
-          pip install pre-commit
-          pre-commit run -a
-  test_code:
-    runs-on: ubuntu-latest
-    container: ghcr.io/gdsfactory/gdsfactory:main
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          make install
-      - name: Test with pytest
-        run: pytest tests/
-  test_code_coverage:
-    runs-on: ubuntu-latest
-    container: ghcr.io/gdsfactory/gdsfactory:main
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          make install
-      - name: Test with pytest
-        run: |
-          pytest --cov=UBCmwopPDK tests/
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+  test:
+    uses: doplaydo/pdk-ci-workflow/.github/workflows/test_code.yml@main
+    secrets:
+      GFP_API_KEY: ${{ secrets.GFP_API_KEY }}

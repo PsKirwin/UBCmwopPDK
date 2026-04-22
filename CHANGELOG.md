@@ -2,10 +2,46 @@
 
 <!-- towncrier release notes start -->
 
-## [2.7.0](https://github.com/gdsfactory/ubc/releases/tag/v2.7.0) - 2024-11-10
+## [3.3.4](https://github.com/gdsfactory/ubc/releases/tag/v3.3.4) - 2026-02-24
 
 No significant changes.
 
+
+## [3.3.2](https://github.com/gdsfactory/ubc/releases/tag/v3.3.2) - 2025-11-26
+
+No significant changes.
+
+
+## [3.3.1](https://github.com/gdsfactory/ubc/releases/tag/v3.3.1) - 2025-11-26
+
+No significant changes.
+
+
+## [3.3.0](https://github.com/gdsfactory/ubc/releases/tag/v3.3.0) - 2025-11-26
+
+No significant changes.
+
+
+## [3.2.0](https://github.com/gdsfactory/ubc/releases/tag/v3.2.0) - 2025-09-10
+
+- add missing layer [#446](https://github.com/gdsfactory/ubc/pull/446)
+- better models [#445](https://github.com/gdsfactory/ubc/pull/445)
+
+## [3.1.0](https://github.com/gdsfactory/ubc/releases/tag/v3.1.0) - 2025-09-08
+
+- improve models [#443](https://github.com/gdsfactory/ubc/pull/443)
+
+## [3.0.0](https://github.com/gdsfactory/ubc/releases/tag/v3.0.0) - 2025-09-08
+
+- update UBCmwopPDK2 and gdsfactory 9.14.0 [#442](https://github.com/gdsfactory/ubc/pull/442)
+- Update gdsfactory818 [#416](https://github.com/gdsfactory/ubc/pull/416)
+- update_gdsfactory9 [#432](https://github.com/gdsfactory/ubc/pull/432)
+- Update gdsfactory818 [#416](https://github.com/gdsfactory/ubc/pull/416)
+- Update gdsfactory889 [#404](https://github.com/gdsfactory/ubc/pull/404)
+
+## [2.7.0](https://github.com/gdsfactory/ubc/releases/tag/v2.7.0) - 2024-11-10
+
+- update to gdsfactory 8.18.0
 
 ## [2.6.3](https://github.com/gdsfactory/ubc/releases/tag/v2.6.3) - 2024-09-28
 
@@ -15,9 +51,6 @@ No significant changes.
 
 - remove old mmi2x2 [#400](https://github.com/gdsfactory/ubc/pull/400)
 - update gdsfactory 862 [#399](https://github.com/gdsfactory/ubc/pull/399)
-
-## [2.6.1](https://github.com/gdsfactory/ubc/releases/tag/v2.6.1) - 2024-07-27
-
 
 ## [2.6.0](https://github.com/gdsfactory/ubc/releases/tag/v2.6.0) - 2024-07-15
 
@@ -263,9 +296,9 @@ No significant changes.
 
 ## 1.0.6
 
-- move ubcpdk.simulations to ubcpdk.simulation for consistency with gdsfactory
-- add ubcpdk.simulation.gmeep
-- move tests to ubcpdk/tests
+- move UBCmwopPDK.simulations to UBCmwopPDK.simulation for consistency with gdsfactory
+- add UBCmwopPDK.simulation.gmeep
+- move tests to UBCmwopPDK/tests
 
 ## 1.0.5
 
@@ -273,15 +306,15 @@ No significant changes.
 
 ## 1.0.0
 
-- rename package from ubc to ubcpdk to match pypi name
-- move ubcsp into ubcpdk/simulation/circuits
-- rename ubcpdk/da as ubcpdk/data
+- rename package from ubc to UBCmwopPDK to match pypi name
+- move ubcsp into UBCmwopPDK/simulation/circuits
+- rename UBCmwopPDK/da as UBCmwopPDK/data
 
 ## 0.0.12
 
 - fix installation by adding lyp files to MANIFEST
 - compatible with latest gdsfactory
-- `pip install ubcpdk` has less dependencies than `pip install ubc[full]`
+- `pip install UBCmwopPDK` has less dependencies than `pip install ubc[full]`
 
 ## 0.0.6
 

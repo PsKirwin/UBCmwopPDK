@@ -11,6 +11,10 @@ UBCmwopPDK/tests/test_components.gds/gds_diff/
 .dvc/
 .virtual_documents
 tests/ref/*.oas
+uv.lock
+
+docs/components.rst
+docs/components_plot.rst
 UBCmwopPDK/gds/*.oas
 
 # C extensions
@@ -25,6 +29,14 @@ poetry.lock
 Pipfile
 modes/
 docs/_autosummary
+
+UBCmwopPDK/gds/EBeam_SiN/*.oas
+UBCmwopPDK/gds/ANT/*.oas
+UBCmwopPDK/gds/EBeam/*.oas
+UBCmwopPDK/gds/EBeam_Beta/*.oas
+UBCmwopPDK/gds/EBeam_SiN/*.oas
+UBCmwopPDK/gds/EBeam_Dream/*.oas
+
 
 # Distribution / packaging
 .Python
@@ -165,3 +177,5 @@ cython_debug/
 *.DS_Store
 .DS_Store
 *Thumbs.db
+test_diffs/
+.pre-commit-config.yaml
