@@ -329,6 +329,15 @@ strip_heater_metal = partial(
     cladding_offsets=cladding_offsets_optical_siepic,
 )
 
+rib = partial(
+    cross_section,
+    sections=[
+        gf.Section(width=2, offset=1.25, layer=LAYER.SLAB150, name="top"),
+        gf.Section(width=2, offset=-1.25, layer=LAYER.SLAB150, name="bot"),
+    ],
+)
+
+
 strip_bbox = partial(
     cross_section,
     bbox_layers=cladding_layers_optical_siepic,
@@ -379,8 +388,18 @@ supercon_CPW_feedline = partial(
         gf.Section(width=4, offset=29.5, layer=LAYER.SC_GAP, name="top"),
         gf.Section(width=4, offset=-29.5, layer=LAYER.SC_GAP, name="bot"),
     ],
-    radius=1000,
+    radius=100,
 )
+
+supercon_CPW_feedline_noKI = partial(
+    supercon_CPW_feedline,
+    width=5,
+    sections=[
+        gf.Section(width=3, offset=4, layer=LAYER.SC_GAP, name="top"),
+        gf.Section(width=3, offset=-4, layer=LAYER.SC_GAP, name="bot"),
+    ],
+)
+
 
 # defining CPW cross-section with holes to allow for buried oxide removal
 def supercon_CPW_hole(
@@ -445,6 +464,7 @@ def supercon_CPW_hole(
 def supercon_pair_hole(
     wire_width: float = 10,
     wire_gap: float = 10,
+    slab_width: float = 50,
     radius: float = 20,
     hole_padding: float = 1,
     hole_radius: float = 1,
@@ -467,6 +487,8 @@ def supercon_pair_hole(
             gap between the pair of wires
         hole_padding: float
             distance along the CPW path before which a hole will not be placed
+        slab_width: float
+            width of the slab on either side of the wires
         hole_radius: float
             radius of the holes
         hole_duty_cycle: float
@@ -485,7 +507,7 @@ def supercon_pair_hole(
     offset = wire_width/2 + wire_gap/2
     s1 = gf.Section(width=wire_width, offset=+offset, layer=trace_layer, port_names=("e1", "e2"), port_types=gf.cross_section.port_types_electrical, name="wire1" if not swap_wire_names else "wire2")
     s2 = gf.Section(width=wire_width, offset=-offset, layer=trace_layer, port_names=("e3", "e4"), port_types=gf.cross_section.port_types_electrical, name="wire2" if not swap_wire_names else "wire1")
-    sslab = gf.Section(width=1.8*wire_width+2*offset, offset=0, layer=slab_layer, name="slab")
+    sslab = gf.Section(width=slab_width, offset=0, layer=slab_layer, name="slab")
 
     hole_pitch = 2*hole_radius / hole_duty_cycle
     hole_up = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+hole_offset)
@@ -506,6 +528,8 @@ def supercon_pair_hole(
 # defining wire cross-section with holes to allow for buried oxide removal
 def supercon_wire_hole(
     width: float = 0.4,
+    slab_width: float = 5,
+    offset: float = 0,
     radius: float = 20,
     hole_padding: float = 1,
     hole_radius: float = 1,
@@ -523,6 +547,10 @@ def supercon_wire_hole(
     Args:
         wire_width: float
             width of the wire
+        offset: float
+            offset of the wire from the centre
+        slab_width: float
+            width of the slab
         hole_padding: float
             distance along the CPW path before which a hole will not be placed
         hole_radius: float
@@ -538,8 +566,8 @@ def supercon_wire_hole(
         hole_layer: tuple
             layer of the holes. i.e., (3,0)
     """
-    s1 = gf.Section(width=width, offset=0, layer=trace_layer, port_names=("e1", "e2"), port_types=gf.cross_section.port_types_electrical, name="wire1")
-    sslab = gf.Section(width=20*width, offset=0, layer=slab_layer, name="slab")
+    s1 = gf.Section(width=width, offset=offset, layer=trace_layer, port_names=("e1", "e2"), port_types=gf.cross_section.port_types_electrical, name="wire1")
+    sslab = gf.Section(width=slab_width, offset=offset, layer=slab_layer, name="slab")
 
     hole_pitch = 2*hole_radius / hole_duty_cycle
     hole_up = ComponentAlongPath(component=gf.c.circle(radius=hole_radius,layer=hole_layer), spacing=hole_pitch, padding=hole_padding, offset=+hole_offset)
